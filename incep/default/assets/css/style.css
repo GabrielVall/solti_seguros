@@ -4369,3 +4369,6 @@ Page-navigation Area Style*/
     fill: #138f82;
     margin-bottom: 10%;
 }
+.review-img{
+  max-width: 100px;
+}
