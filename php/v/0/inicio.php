@@ -1,3 +1,14 @@
+<?php 
+include_once('../../m/SQLConexion.php');
+$sql = new SQLConexion();
+$resultado = $sql->obtenerResultado('CALL sp_select_reportes()');
+$total_resultado = count($resultado);
+if($total_resultado == 0){
+    $tabla = sin_resultados();
+}else{
+    $tabla = crear_tds($resultado);
+}
+?>
 <div class="col-xl-12">
     <div class="card">
         <div class="card-header pb-0">
@@ -8,7 +19,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <!-- <table class="table table-bordered table-striped mg-b-0 text-md-nowrap">
+                <table class="table table-bordered table-striped mg-b-0 text-md-nowrap">
                     <thead>
                         <tr>
                             <th>Id Reporte</th>
@@ -62,7 +73,7 @@
                                 </div>
                         </tr>
                     </tbody>
-                </table> -->
+                </table>
                 <div class="not-found-items">
                     <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
                     <div class="w-100">
