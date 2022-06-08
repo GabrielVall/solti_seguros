@@ -3,13 +3,32 @@ include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
 $resultado = $sql->obtenerResultado('CALL sp_select_reportes()');
 $total_resultado = count($resultado);
-if($total_resultado == 0){
-    $tabla = sin_resultados();
-}else{
-    $tabla = crear_tds($resultado);
-}
 ?>
-<div class="col-xl-12">
+<div class="row d-flex justify-content-between w-100">
+    <div class="col-xl-5">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
+                            <div class="text-justified align-items-center">
+                                <h3 class="text-dark font-weight-semibold mb-2 mt-0">Hola, Bienvenido de vuelta <span class="text-primary">Administrador!</span></h3>
+                                <p class="text-dark tx-14 mb-3 lh-3"> Has atendido todos los reportes, te notificaremos cuendo recibas uno nuevo.</p>
+                                <button class="btn btn-primary shadow">Ver reportes anteriores</button>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
+                            <div class="chart-circle float-md-end mt-4 mt-md-0" data-value="0.85" data-thickness="8" data-color=""><canvas width="96" height="96"></canvas><canvas width="100" height="100"></canvas>
+                                <div class="chart-circle-value circle-style"><div class="tx-18 font-weight-semibold">100%</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xl-9">
     <div class="card">
         <div class="card-header pb-0">
             <div class="d-flex justify-content-between">
@@ -74,7 +93,7 @@ if($total_resultado == 0){
                         </tr>
                     </tbody>
                 </table>
-                <div class="not-found-items">
+                <!-- <div class="not-found-items">
                     <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
                     <div class="w-100">
                         <lord-icon
@@ -84,11 +103,50 @@ if($total_resultado == 0){
                         </lord-icon>
                     </div>
                     <h3 class="w-100">¡Hurra!, No hay reportes pendientes.</h3>
-                </div>
+                </div> -->
             </div>
             <!-- bd -->
         </div>
         <!-- bd -->
     </div>
     <!-- bd -->
+</div>
+<div class="col-xl-3">
+    <div class="card">
+        <div class="card-header pb-3">
+            <h3 class="card-title mb-2">Tareas pendientes</h3>
+        </div>
+        <div class="card-body p-0 customers mt-1">
+            <div class="">
+                
+                <label class="p-2 mt-2 d-flex">
+                    <span class="check-box mb-0 ms-2">
+                        <span class="ckbox"><input type="checkbox"><span></span></span>
+                    </span>
+                    <span class="mx-3 my-auto">
+                        Hay 1 reportes pendientes.
+                    </span>
+                    <span class="ms-auto"><span class="badge badge-primary font-weight-semibold px-2 py-1 tx-11 me-2 float-end">Hoy</span></span>
+                </label>
+                <label class="p-2 mt-2 d-flex">
+                    <span class="check-box mb-0 ms-2">
+                        <span class="ckbox"><input checked type="checkbox"><span></span></span>
+                    </span>
+                    <span class="mx-3 my-auto">
+                        Se terminó el reporte #9230.
+                    </span>
+                    <span class="ms-auto"> <span class="badge badge-light-transparent font-weight-semibold px-2 py-1 tx-11 me-2">1 Day</span></span>
+                </label>
+                <label class="p-2 mt-2 d-flex">
+                    <span class="check-box mb-0 ms-2">
+                        <span class="ckbox"><input checked="" type="checkbox"><span></span></span>
+                    </span>
+                    <span class="mx-3 my-auto">
+                        Se termino el reporte #9229.
+                    </span>
+                    <span class="ms-auto"> <span class="badge badge-light-transparent font-weight-semibold px-2 py-1 tx-11 me-2">2 Days</span></span>
+                </label>
+            </div>
+        </div>
+    </div>
 </div>
