@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-06-2022 a las 04:15:29
+-- Tiempo de generación: 09-06-2022 a las 04:02:42
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -25,6 +25,38 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+DROP PROCEDURE IF EXISTS `sp_insertar_cliente`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_cliente` (IN `_NOMBRE` VARCHAR(500), IN `_APELLIDO_PATERNO` VARCHAR(500), IN `_APELLIDO_MATERNO` VARCHAR(500), IN `_TEL` VARCHAR(20), IN `_CORREO` VARCHAR(500), IN `_DIR` VARCHAR(500), IN `_ID_CIUDAD` INT, IN `_FAX` VARCHAR(50), IN `_USUARIO` VARCHAR(500), IN `_PASS` VARCHAR(500), OUT `_ID` INT)  BEGIN
+
+SET @ID = _ID;
+
+INSERT INTO usuarios(usuario,usuarios.password,id_estado_usuario)
+VALUES(_USUARIO,_PASS,1);
+
+SET @ID = @@IDENTITY;
+
+INSERT INTO info_contacto(id_usuario,nombre,
+apellido_paterno,apellido_materno,telefono,mail,direccion,id_ciudad,fax)
+VALUES(@ID,_NOMBRE,_APELLIDO_PATERNO,_APELLIDO_MATERNO,_TEL,_CORREO,
+_DIR,_ID_CIUDAD,_FAX);
+
+INSERT INTO clientes(clientes.id_usuario)
+VALUES(@ID);
+SET _ID = @ID;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_clientes`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_clientes` ()  BEGIN
+SELECT info_contacto.id_info_contacto,info_contacto.nombre,
+info_contacto.apellido_paterno,info_contacto.apellido_materno,
+info_contacto.telefono,info_contacto.mail,
+info_contacto.direccion,info_contacto.id_ciudad,
+info_contacto.fax,clientes.id_cliente
+FROM info_contacto
+INNER JOIN usuarios ON usuarios.id_usuario = info_contacto.id_usuario
+INNER JOIN clientes ON clientes.id_usuario = usuarios.id_usuario;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_reportes`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_reportes` ()  BEGIN
 SELECT * FROM reportes;
@@ -95,7 +127,20 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`id_cliente`, `id_usuario`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7);
 
 -- --------------------------------------------------------
 
@@ -113,10 +158,23 @@ CREATE TABLE IF NOT EXISTS `info_contacto` (
   `telefono` varchar(20) NOT NULL,
   `mail` varchar(500) NOT NULL,
   `direccion` varchar(500) NOT NULL,
-  `id_estado` int(11) NOT NULL,
+  `id_ciudad` int(11) NOT NULL,
   `fax` varchar(500) NOT NULL,
   PRIMARY KEY (`id_info_contacto`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `info_contacto`
+--
+
+INSERT INTO `info_contacto` (`id_info_contacto`, `id_usuario`, `nombre`, `apellido_paterno`, `apellido_materno`, `telefono`, `mail`, `direccion`, `id_ciudad`, `fax`) VALUES
+(1, 1, 'asd', 'asd', 'asd', '213123a', 'asd', 'asd', 1, 'asd'),
+(2, 2, 'asd', 'asd', 'asd', '213123a', 'asd', 'asd', 1, 'asd'),
+(3, 3, 'Juan', 'Lopez', 'Martinez', '8781383809', 'test@test.com', 'ABCJJASD #213 FASD', 1, '123.1234.123'),
+(4, 4, 'Luis', 'Fernando', 'Lopez', '128937', 'as@d.com', 'ohipafahfsop', 1, '123.54234.123'),
+(5, 5, 'asd', 'asd', 'asd', 'sdaa', 'adads', 'asd', 1, 'asd'),
+(6, 6, 'asd', 'ad', 'asd', 'asd', 'asd', 'ads', 1, 'asd'),
+(7, 7, 'DSA', 'ASD', 'asd', '123', 'asd@', 'ads', 1, '123123');
 
 -- --------------------------------------------------------
 
@@ -207,7 +265,20 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `password` varchar(500) NOT NULL,
   `id_estado_usuario` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_usuario`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `usuario`, `password`, `id_estado_usuario`) VALUES
+(1, 'asd', 'ads', 1),
+(2, 'asd', 'ads', 1),
+(3, 'GVALLEJO20000', '$2y$10$pPMWQ0hu2utrHWasSOiCj.PQp4tjlrZHMbuO5U73XShQYmsvwuRwq', 1),
+(4, 'admin', '$2y$10$SO/RoKzsTKEAl7o1K9cpnuSBfdv46fk8tXn14W1uSp0FT5f/dy5/e', 1),
+(5, 'asd', '$2y$10$qWZKQHPaDY4NO9OmfAIw/.HO2IsjwDRpUOQovWTYJuwm1pfCv43S.', 1),
+(6, 'asd', '$2y$10$Vcz.EinGyIlkpsFSv38KROWwhexgoU/TVwVdlFYne0aDTOdRs6lia', 1),
+(7, 'asd', '$2y$10$Qd4YR0ylGPKCmWrAPdtBFOOtbq0Gsl9xktB4ECoHtFfZzoACqvbUu', 1);
 
 -- --------------------------------------------------------
 

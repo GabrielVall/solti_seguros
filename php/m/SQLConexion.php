@@ -125,9 +125,5 @@ function select_imagen($ruta,$id,$n_carpetas = 0,$n_carpetas_vista = 0,$numero =
     }
     return $ruta;
 }
-function crear_tds($array){
-	// lo convertimos  a json
-	$json = json_encode($array);
-	echo '<script>JSON.parse('.$json.');</script>';
-}
+
 ?>
