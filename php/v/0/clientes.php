@@ -5,7 +5,7 @@ $resultado = $sql->obtenerResultado('CALL sp_select_clientes()');
 $total_resultado = count($resultado);
 ?>
 <div class="row">
-    <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
+    <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12" id="form_cliente_content">
         <div class="card  box-shadow-0">
             <div class="card-header">
                 <h4 class="card-title mb-1">Agregar un cliente</h4>
@@ -41,7 +41,7 @@ $total_resultado = count($resultado);
                         <input type="text" class="form-control" id="fax" placeholder="Fax">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="usuario" placeholder="Contraseña">
+                        <input type="text" class="form-control" id="usuario" placeholder="Usuario">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="pass" placeholder="Contraseña">
@@ -81,14 +81,11 @@ $total_resultado = count($resultado);
                                     <tr>
                                         <th scope="row">#<?php echo $resultado[$i]['id_cliente']; ?></th>
                                         <td><?php echo $resultado[$i]['nombre']; ?></td>
-                                        <td style="display:flex;justify-content:space-around;">
-                                            <a href="javascript:void(0);" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a href="javascript:void(0);" class="btn btn-success btn-sm">
+                                        <td style="display:flex;justify-content:space-around;" data-id="<?php echo $resultado[$i]['id_cliente']; ?>">
+                                            <a href="javascript:void(0);" class="btn btn-success btn-sm" id="editar_cliente">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm">
+                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm" id="eliminar_registro">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
