@@ -45,7 +45,7 @@ $cliente = $sql->obtenerResultado("CALL sp_select_cliente('".$_POST['id']."')");
             </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
                 <div>
-                    <a class="btn btn-secondary ms-4" id="cancelar">Cancelar</a>
+                    <a class="btn btn-secondary ms-4" id="cancelar_editar_cliente">Cancelar</a>
                     <a class="btn btn-primary" id="editar_cliente_form" data-id="<?php echo $_POST['id']; ?>">Agregar</a>
                 </div>
             </div>
