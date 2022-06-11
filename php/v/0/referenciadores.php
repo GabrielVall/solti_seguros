@@ -1,9 +1,3 @@
-<?php 
-include_once('../../m/SQLConexion.php');
-$sql = new SQLConexion();
-$resultado = $sql->obtenerResultado('CALL sp_select_referenciadores()');
-$total_resultado = count($resultado);
-?>
 <div class="row">
     <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12" id="form_cliente_content">
         <?php include('../../v/0/form_referenciadores.php'); ?>
@@ -26,27 +20,8 @@ $total_resultado = count($resultado);
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php 
-                            if ($total_resultado > 0) {
-                                for($i = 0; $i < $total_resultado; $i++){ ?>
-                                    <tr>
-                                        <th scope="row">#<?php echo $resultado[$i]['id_referenciador']; ?></th>
-                                        <td><?php echo $resultado[$i]['nombre']; ?></td>
-                                        <td style="display:flex;justify-content:space-around;" data-id="<?php echo $resultado[$i]['id_referenciador']; ?>">
-                                            <a href="javascript:void(0);" class="btn btn-success btn-sm" id="editar_referenciador">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm" id="eliminar_registro_referenciador">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>      
-                                <?php }   
-                            }else{ ?>
-                                <tr class="text-center" > <td colspan="4">No se encontraron registros</td> </tr>
-                            <?php }
-                            ?>
+                        <tbody id="tabla_consulta">
+                            <?php include('../../v/0/tabla_referenciadores.php'); ?>
                         </tbody>
                     </table>
                 </div>
