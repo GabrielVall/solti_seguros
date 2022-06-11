@@ -62,22 +62,17 @@
                             </form>
                         </li>
                         <li class="dropdown main-profile-menu nav nav-item nav-link ps-lg-2">
-                            <a class="new nav-link profile-user d-flex" href="" data-bs-toggle="dropdown"><img alt="" src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" class=""></a>
+                            <a class="new nav-link profile-user d-flex" href="" data-bs-toggle="dropdown"><img alt="" src="../img/default.png" style="object-fit:cover;" class=""></a>
                             <div class="dropdown-menu">
                                 <div class="menu-header-content p-3 border-bottom">
                                     <div class="d-flex wd-100p">
-                                        <div class="main-img-user"><img alt="" src="https://codeigniter.spruko.com/nowa/nowa_demo/assets/img/faces/2.jpg" class=""></div>
+                                        <div class="main-img-user"><img alt="" src="../img/default.png" style="object-fit:cover;" class=""></div>
                                         <div class="ms-3 my-auto">
-                                            <h6 class="tx-15 font-weight-semibold mb-0">Teri Dactyl</h6><span class="dropdown-title-text subtext op-6  tx-12">Premium Member</span>
+                                            <h6 class="tx-15 font-weight-semibold mb-0">Administrador</h6><span class="dropdown-title-text subtext op-6  tx-12">Cuenta administradora</span>
                                         </div>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/profile"><i class="far fa-user-circle"></i>Profile</a>
-                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/chat"><i class="far fa-smile"></i> chat</a>
-                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/mail-read"><i class="far fa-envelope "></i>Inbox</a>
-                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/mail"><i class="far fa-comment-dots"></i>Messages</a>
-                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/mail-settings"><i class="far fa-sun"></i>  Settings</a>
-                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/signup"><i class="far fa-arrow-alt-circle-left"></i> Sign Out</a>
+                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/signup"><i class="far fa-arrow-alt-circle-left"></i> Cerrar sesión</a>
                             </div>
                         </li>
                     </ul>
