@@ -4,7 +4,7 @@
             <div class="responsive-logo">
                 <a href="https://codeigniter.spruko.com/nowa/nowa_demo/index" class="header-logo">
                     <img src="https://codeigniter.spruko.com/nowa/nowa_demo/assets/img/brand/logo.png" class="mobile-logo logo-1" alt="logo">
-                    <img src="https://codeigniter.spruko.com/nowa/nowa_demo/assets/img/brand/logo-white.png" class="mobile-logo dark-logo-1" alt="logo">
+                    <img src="https://codeigniter.spruko.com/logo2_white.png" class="mobile-logo dark-logo-1" alt="logo">
                 </a>
             </div>
             <div class="app-sidebar__toggle" data-bs-toggle="sidebar">
@@ -14,7 +14,7 @@
             <div class="logo-horizontal">
                 <a href="https://codeigniter.spruko.com/nowa/nowa_demo/index" class="header-logo">
                     <img src="https://codeigniter.spruko.com/nowa/nowa_demo/assets/img/brand/logo.png" class="mobile-logo logo-1" alt="logo">
-                    <img src="https://codeigniter.spruko.com/nowa/nowa_demo/assets/img/brand/logo-white.png" class="mobile-logo dark-logo-1" alt="logo">
+                    <img src="https://codeigniter.spruko.com/logo2_white.png" class="mobile-logo dark-logo-1" alt="logo">
                 </a>
             </div>
             <div class="main-header-center ms-4 d-sm-none d-md-none d-lg-block form-group">
