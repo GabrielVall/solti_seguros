@@ -1,6 +1,23 @@
+<?php 
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+    // Si esta declarada la variable de sesion
+}
+// if string conatins 'clientes'
+if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
+    $hash = $_SERVER['REQUEST_URI'];
+    $hash = substr($hash, strrpos($hash, '/') + 1);
+    $_SESSION['hash'] = $hash;   
+}else{
+    $hash = $_SESSION['hash'];
+}
+
+// Get url
+// get text after last slash
+?>
 <div class="card  box-shadow-0">
     <div class="card-header">
-        <h4 class="card-title mb-1">Agregar un cliente</h4>
+        <h4 class="card-title mb-1">Formulario para <?php echo $hash; ?></h4>
         <p class="mb-2">Agrega  los datos basicos de un nuevo cliente.</p>
     </div>
     <div class="card-body pt-0">

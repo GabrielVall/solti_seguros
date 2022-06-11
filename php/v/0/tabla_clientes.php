@@ -1,15 +1,18 @@
-<?php 
+<?php
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+}
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
-$resultado = $sql->obtenerResultado('CALL sp_select_clientes()');
+$resultado = $sql->obtenerResultado('CALL sp_select_'.$_SESSION['hash'].'()');
 $total_resultado = count($resultado);
 
 if ($total_resultado > 0) {
     for($i = 0; $i < $total_resultado; $i++){ ?>
         <tr>
-            <th scope="row">#<?php echo $resultado[$i]['id_cliente']; ?></th>
+            <th scope="row">#<?php echo $resultado[$i][9]; ?></th>
             <td><?php echo $resultado[$i]['nombre']; ?></td>
-            <td style="display:flex;justify-content:space-around;" data-id="<?php echo $resultado[$i]['id_cliente']; ?>">
+            <td style="display:flex;justify-content:space-around;" data-id="<?php echo $resultado[$i][9]; ?>">
                 <a href="javascript:void(0);" class="btn btn-success btn-sm" id="editar_cliente">
                     <i class="fa fa-edit"></i>
                 </a>

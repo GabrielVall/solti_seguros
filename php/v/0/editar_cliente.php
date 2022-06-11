@@ -1,7 +1,18 @@
-<?php 
+<?php
+session_start();
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
-$cliente = $sql->obtenerResultado("CALL sp_select_cliente('".$_POST['id']."')");
+
+switch ($_SESSION['hash']) {
+    case 'clientes':
+        $tabla = 'cliente';
+        break;
+    case 'abogados':
+        $tabla = 'abogado';
+    break;
+}
+
+$cliente = $sql->obtenerResultado("CALL sp_select_".$tabla."('".$_POST['id']."')");
 ?>
 <div class="card  box-shadow-0">
     <div class="card-header">
