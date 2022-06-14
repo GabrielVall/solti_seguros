@@ -7,7 +7,10 @@ if(session_status() == PHP_SESSION_NONE){
 if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
     $hash = $_SERVER['REQUEST_URI'];
     $hash = substr($hash, strrpos($hash, '/') + 1);
-    $_SESSION['hash'] = $hash;   
+    // remove extension     
+    $hash = substr($hash, 0, strrpos($hash, '.'));
+    $_SESSION['hash'] = $hash;  
+    
 }else{
     $hash = $_SESSION['hash'];
 }
