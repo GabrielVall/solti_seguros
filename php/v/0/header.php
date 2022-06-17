@@ -72,7 +72,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="https://codeigniter.spruko.com/nowa/nowa_demo/signup"><i class="far fa-arrow-alt-circle-left"></i> Cerrar sesión</a>
+                                <a class="dropdown-item" href="#"><i class="far fa-arrow-alt-circle-left"></i> Cerrar sesión</a>
                             </div>
                         </li>
                     </ul>

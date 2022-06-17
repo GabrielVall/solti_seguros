@@ -9,8 +9,7 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
     $hash = substr($hash, strrpos($hash, '/') + 1);
     // remove extension     
     $hash = substr($hash, 0, strrpos($hash, '.'));
-    $_SESSION['hash'] = $hash;  
-    
+    $_SESSION['hash'] = $hash;   
 }else{
     $hash = $_SESSION['hash'];
 }
