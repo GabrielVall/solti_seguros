@@ -18,6 +18,12 @@
                         <span class="side-menu__label">Inicio</span>
                     </a>
                 </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="#reportes">
+                    <svg class="svg-icon side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path></svg>
+                        <span class="side-menu__label">Reportes</span>
+                    </a>
+                </li>
                 <li class="side-item side-item-category">Clientes</li>
                 <li class="slide">
                     <a class="side-menu__item" href="#clientes">
@@ -25,12 +31,7 @@
                         <span class="side-menu__label">Clientes</span>
                     </a>
                 </li>
-                <li class="slide">
-                    <a class="side-menu__item" href="#reportes">
-                    <svg class="svg-icon side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path></svg>
-                        <span class="side-menu__label">Reportes</span>
-                    </a>
-                </li>
+                
                 <li class="slide">
                     <a class="side-menu__item" href="#referenciadores">
                         <svg class="svg-icon side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
