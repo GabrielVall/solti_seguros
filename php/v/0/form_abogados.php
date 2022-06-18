@@ -13,11 +13,14 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
 }else{
     $hash = $_SESSION['hash'];
 }
+
+// Get url
+// get text after last slash
 ?>
 <div class="card  box-shadow-0">
     <div class="card-header">
-        <h4 class="card-title mb-1">Agregar un referenciador</h4>
-        <p class="mb-2">Agrega  los datos basicos de un nuevo referenciador.</p>
+        <h4 class="card-title mb-1">Formulario para <?php echo $hash; ?></h4>
+        <p class="mb-2">Agrega  los datos basicos de un nuevo cliente.</p>
     </div>
     <div class="card-body pt-0">
         <div class="form-horizontal" >
@@ -54,13 +57,10 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
             <div class="form-group">
                 <input type="password" class="form-control" id="pass" placeholder="Contraseña">
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="codigo" placeholder="Palabra clave o PIN de referencia">
-            </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
                 <div>
                     <a class="btn btn-secondary ms-4" id="cancelar">Cancelar</a>
-                    <a class="btn btn-primary" id="submit_form" data-action="agregar_referenciador">Agregar</a>
+                    <a class="btn btn-primary" id="submit_form" data-action="agregar_cliente">Agregar</a>
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
 <div class="card  box-shadow-0">
     <div class="card-header">
         <h4 class="card-title mb-1">Formulario para <?php echo $hash; ?></h4>
-        <p class="mb-2">Agrega  los datos basicos de un nuevo cliente.</p>
+        <p class="mb-2">Agrega  los datos basicos de tu registro.</p>
     </div>
     <div class="card-body pt-0">
         <div class="form-horizontal" >

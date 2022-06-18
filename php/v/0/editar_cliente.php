@@ -10,6 +10,9 @@ switch ($_SESSION['hash']) {
     case 'abogados':
         $tabla = 'abogado';
     break;
+    case 'asistentes':
+        $tabla = 'asistente';
+    break;
 }
 
 $cliente = $sql->obtenerResultado("CALL sp_select_".$tabla."('".$_POST['id']."')");

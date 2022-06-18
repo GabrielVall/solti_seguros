@@ -1,7 +1,22 @@
 <?php
+session_start();
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
-$resultado = $sql->obtenerResultadoSimple("CALL sp_delete_cliente('".$_POST['id_cliente']."')");
+switch ($_SESSION['hash']) {
+    case 'clientes':
+        $tabla = 'cliente';
+        break;
+    case 'abogados':
+        $tabla = 'abogado';
+    break;
+    case 'referenciadores':
+        $tabla = 'referenciador';
+    break;
+    case 'asistentes':
+        $tabla = 'asistente';
+    break;
+}
+$resultado = $sql->obtenerResultadoSimple("CALL sp_delete_".$tabla."('".$_POST['id_cliente']."')");
 if($resultado){
-    echo JSON_encode(array('status' => 'success', 'message' => 'Cliente eliminado correctamente'));
+    echo JSON_encode(array('status' => 'success', 'message' => $tabla.' eliminado correctamente'));
 }

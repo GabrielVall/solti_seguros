@@ -10,9 +10,6 @@ switch ($_SESSION['hash']) {
     case 'abogados':
         $tabla = 'abogado';
     break;
-    case 'asistentes':
-        $tabla = 'asistente';
-    break;
 }
 
 $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
