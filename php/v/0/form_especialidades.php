@@ -25,6 +25,7 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_especialidades') !== false){
     <div class="card-body pt-0">
         <div class="form-horizontal" >
             <div class="form-group">
+                <label for="nombre">Nombre de la especialidad</label>
                 <input type="text" class="form-control" id="nombre" placeholder="Nombre especialidad">
             </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
