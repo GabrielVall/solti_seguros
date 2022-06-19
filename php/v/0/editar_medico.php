@@ -12,9 +12,10 @@ $cliente = $sql->obtenerResultado("CALL sp_select_medico('".$_POST['id']."')");
         <p class="mb-2">Edita los datos basicos de un proveedor.</p>
     </div>
     <div class="card-body pt-0">
+        <div class="form-horizontal" >
         <div class="form-group">
-            <select class="form-control" id="id_aseguradora">
-                <option value="">Seleccione una aseguradora</option>
+            <select class="form-control" id="id_proveedor">
+                <option value="">Seleccione un proveedor medioc</option>
                 <?php 
                     foreach($proveedores as $proveedor){
                         if($proveedor['id_proveedor'] == $cliente[0]['id_proveedor']){
@@ -42,7 +43,6 @@ $cliente = $sql->obtenerResultado("CALL sp_select_medico('".$_POST['id']."')");
                 ?>
             </select>
         </div>
-        <div class="form-horizontal" >
             <div class="form-group">
                 <input type="text" class="form-control" id="nombre" placeholder="Nombre" value="<?php echo $cliente[0]['nombre']; ?>">
             </div>
@@ -79,7 +79,7 @@ $cliente = $sql->obtenerResultado("CALL sp_select_medico('".$_POST['id']."')");
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
                 <div>
                     <a class="btn btn-secondary ms-4" id="cancelar_editar_aseguradora">Cancelar</a>
-                    <a class="btn btn-primary" id="editar_cliente_form" data-id="<?php echo $_POST['id']; ?>">Agregar</a>
+                    <a class="btn btn-primary" id="editar_medico_form" data-id="<?php echo $_POST['id']; ?>">Agregar</a>
                 </div>
             </div>
         </div>

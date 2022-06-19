@@ -3,6 +3,16 @@ if(session_status() == PHP_SESSION_NONE){
     session_start();
     // Si esta declarada la variable de sesion
 }
+// if string conatins 'clientes'
+if(!strpos($_SERVER['REQUEST_URI'], 'form_medicos') !== false){
+    $hash = $_SERVER['REQUEST_URI'];
+    $hash = substr($hash, strrpos($hash, '/') + 1);
+    // remove extension     
+    $hash = substr($hash, 0, strrpos($hash, '.'));
+    $_SESSION['hash'] = $hash;   
+}else{
+    $hash = $_SESSION['hash'];
+}
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
 $proveedores = $sql->obtenerResultado("CALL sp_select_proveedores()");
