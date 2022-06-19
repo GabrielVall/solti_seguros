@@ -4,7 +4,7 @@ if(session_status() == PHP_SESSION_NONE){
     // Si esta declarada la variable de sesion
 }
 // if string conatins 'clientes'
-if(!strpos($_SERVER['REQUEST_URI'], 'form_especialidaddes') !== false){
+if(!strpos($_SERVER['REQUEST_URI'], 'form_especialidades') !== false){
     $hash = $_SERVER['REQUEST_URI'];
     $hash = substr($hash, strrpos($hash, '/') + 1);
     // remove extension     
