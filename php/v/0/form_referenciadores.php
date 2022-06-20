@@ -47,11 +47,15 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_referenciadores') !== false){
             </div>
             <div class="form-group">
                 <label for="estado">Estado</label>
-                <input type="text" class="form-control" id="estado" placeholder="Estado">
+                <select class="form-control" id="estado">
+                    <option value="">Seleccione un estado</option>
+</select>
             </div>
             <div class="form-group">
                 <label for="ciudad">Ciudad</label>
-                <input type="text" class="form-control" id="ciudad" placeholder="Ciudad">
+                <select class="form-control" id="ciudad">
+                    <option value="">Seleccione una ciudad</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="fax">Fax</label>
@@ -66,7 +70,7 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_referenciadores') !== false){
                 <input type="password" class="form-control" id="pass" placeholder="Contraseña">
             </div>
             <div class="form-group">
-                <label for="pass">Clave o PIN</label>
+                <label for="codigo">Clave o PIN</label>
                 <input type="text" class="form-control" id="codigo" placeholder="Palabra clave o PIN de referencia">
             </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">

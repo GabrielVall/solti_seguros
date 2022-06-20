@@ -73,11 +73,15 @@ $tipos_medicos = $sql->obtenerResultado("CALL sp_select_tipos_medicos()");
             </div>
             <div class="form-group">
                 <label for="estado">Estado</label>
-                <input type="text" class="form-control" id="estado" placeholder="Estado">
+                <select class="form-control" id="estado">
+                    <option value="">Seleccione un estado</option>
+</select>
             </div>
             <div class="form-group">
                 <label for="ciudad">Ciudad</label>
-                <input type="text" class="form-control" id="ciudad" placeholder="Ciudad">
+                <select class="form-control" id="ciudad">
+                    <option value="">Seleccione una ciudad</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="fax">Fax</label>
