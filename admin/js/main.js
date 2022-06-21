@@ -428,6 +428,42 @@ $(document).ready(function() {
             data: {id: datos},
             success: function(data){
                 $(id).html(data);
+                // Si existe data-val in select
+                if($(id).find('select').attr('data-val').length > 0){
+                    $('select').select2({
+                        placeholder: 'Escoger una opción',
+                        searchInputPlaceholder: 'Buscar..',
+                        "language": {
+                            "noResults": function(){
+                                return "No se encontraron resultados";
+                            }
+                        },
+                    });
+                    cargar_select_ciudad();
+                }
+            }
+        });
+    }
+
+    function cargar_select_ciudad(){
+        var selected_id = $('#ciudad').data('val');
+        $.ajax({
+            url: 'js/estados-municipios.json',
+            success: function(data){
+                estados = data;
+                // Ceate options for selects
+                var options = '';
+                
+                for(var i in data){
+                    if(i == selected_id-1){
+                        options += '<option value="'+data[i].id+'" selected>'+data[i].name+'</option>';
+                    }else{
+                        options += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+                    }
+                    
+                }
+                // Append options to selects
+                $('#ciudad').append(options);
             }
         });
     }

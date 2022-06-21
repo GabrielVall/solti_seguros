@@ -108,5 +108,5 @@
 		<script src="nowa/nowa_demo/assets/js/custom.js"></script>
 		<!-- Switcher js -->
 		<!-- <script src="nowa/nowa_demo/assets/switcher/js/switcher.js"></script> -->
-		<script src="js/main.js?0.0"></script>
+		<script src="js/main.js?0.1"></script>
 </html>
