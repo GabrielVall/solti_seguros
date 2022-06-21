@@ -53,29 +53,44 @@ $(document).ready(function() {
                 estados = data;
                 // Ceate options for selects
                 var options = '';
-                var n = 0;
+                
                 for(var i in data){
-                    n++;
-                    options += '<option value="'+n+'">'+i+'</option>';
+                    options += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
                 }
                 // Append options to selects
-                $('#estado').append(options);
+                $('#ciudad').append(options);
             }
         });
     }
-    $(document).on('change', '#estado', function(){
+    // $.ajax({url: 'js/estados-municipios.json',success: function(data){
+    //     var cities = [];
+    //     estados = data;
+    //     var n = 0;
+    //     var citi_id = 0;
+    //     for(var i in data){
+    //         n++;
+    //         console.log(n,i);
+    //         for(var j in data[i]){
+    //             citi_id++;
+    //             cities.push({id: citi_id, name: estados[i][j], state_id: n});
+                // console.log(citi_id,estados[i][j]);
+    //         }
+    //     }
+    //     console.log(cities);
+    // }});
+    // $(document).on('change', '#estado', function(){
         // Text for select
-        var text = $(this).find('option:selected').text();
-        var options = '';
-        var n = 0;
-        var length = estados[text].length;
-        for( var i = 0; i < length; i++){
-            n++;
-            console.log(estados[text][i]);
-            options += '<option value="'+n+'">'+estados[text][i]+'</option>';
-        }
-        $('#ciudad').html(options);
-    });
+    //     var text = $(this).find('option:selected').text();
+    //     var options = '';
+    //     var n = 0;
+    //     var length = estados[text].length;
+    //     for( var i = 0; i < length; i++){
+    //         n++;
+    //         console.log(estados[text][i]);
+    //         options += '<option value="'+n+'">'+estados[text][i]+'</option>';
+    //     }
+    //     $('#ciudad').html(options);
+    // });
     function cargar_tablas(){
         $('table').DataTable({
             language: {

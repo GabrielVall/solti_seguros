@@ -43,9 +43,6 @@ $cliente = $sql->obtenerResultado("CALL sp_select_".$tabla."('".$_POST['id']."')
                 <input type="text" class="form-control" id="direccion" placeholder="Dirección" value="<?php echo $cliente[0]['direccion']; ?>">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="estado" placeholder="Estado" >
-            </div>
-            <div class="form-group">
                 <input type="text" class="form-control" id="ciudad" placeholder="Ciudad" value="<?php echo $cliente[0]['id_ciudad']; ?>">
             </div>
             <div class="form-group">

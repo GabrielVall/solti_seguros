@@ -46,12 +46,6 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_referenciadores') !== false){
                 <input type="text" class="form-control" id="direccion" placeholder="Dirección">
             </div>
             <div class="form-group">
-                <label for="estado">Estado</label>
-                <select class="form-control" id="estado">
-                    <option value="">Seleccione un estado</option>
-</select>
-            </div>
-            <div class="form-group">
                 <label for="ciudad">Ciudad</label>
                 <select class="form-control" id="ciudad">
                     <option value="">Seleccione una ciudad</option>
