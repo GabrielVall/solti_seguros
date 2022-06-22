@@ -298,6 +298,11 @@ $(document).ready(function() {
         imprimir_vista('#form_cliente_content','editar_referenciador.php',id);
     });
 
+    $(document).on('click', '#editar_informante', function(){
+        var id = $(this).parent().data('id');
+        imprimir_vista('#form_cliente_content','editar_informante.php',id);
+    });
+
     $(document).on('click', '#editar_cliente_form', function(){
         var id = $(this).data('id');
          // get all inputs of the form
@@ -414,6 +419,34 @@ $(document).ready(function() {
                  if(data.status == 'success'){
                      imprimir_vista('#form_cliente_content','form_referenciadores.php',0);
                      imprimir_vista('#tabla_consulta','tabla_referenciadores.php',0);
+                     alertify.set('notifier','position', 'top-right');
+                     alertify.success('Registro modificado');
+                 }
+             }
+         });
+    });
+
+    $(document).on('click', '#editar_informante_form', function(){
+        var id = $(this).data('id');
+         // get all inputs of the form
+         var inputs = $('.form-horizontal').find(':input');
+         // add in form data
+         var form_data = new FormData();
+         for(var i=0; i<inputs.length; i++){
+             form_data.append(inputs[i].id, inputs[i].value);
+         }
+         form_data.append('id', id);
+         $.ajax({
+             url: '../php/c/0/editar_informante.php',
+             type: 'POST',
+             processData: false,
+             contentType: false,
+             data: form_data,
+             success: function(data){
+                 data = JSON.parse(data);
+                 if(data.status == 'success'){
+                     imprimir_vista('#form_cliente_content','form_informantes.php',0);
+                     imprimir_vista('#tabla_consulta','tabla_informantes.php',0);
                      alertify.set('notifier','position', 'top-right');
                      alertify.success('Registro modificado');
                  }

@@ -10,7 +10,7 @@ if ($total_resultado > 0) {
             <th scope="row">#<?php echo $resultado[$i]['id_informante']; ?></th>
             <td><?php echo $resultado[$i]['nombre']; ?></td>
             <td style="display:flex;justify-content:space-around;" data-id="<?php echo $resultado[$i]['id_informante']; ?>">
-                <a href="javascript:void(0);" class="btn btn-success btn-sm" id="editar_referenciador">
+                <a href="javascript:void(0);" class="btn btn-success btn-sm" id="editar_informante">
                     <i class="fa fa-edit"></i>
                 </a>
                 <a href="javascript:void(0);" class="btn btn-danger btn-sm" id="eliminar_registro">
