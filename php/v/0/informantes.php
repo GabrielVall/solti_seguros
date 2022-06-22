@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12" id="form_cliente_content">
-        <?php include('../../v/0/form_clientes.php'); ?>
+        <?php include('../../v/0/form_informantes.php'); ?>
     </div>
     <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
         <div class="card">
@@ -21,7 +21,7 @@
                             </tr>
                         </thead>
                         <tbody id="tabla_consulta">
-                        <?php include('../../v/0/tabla_clientes.php'); ?>
+                            <?php include('../../v/0/tabla_informantes.php'); ?>
                         </tbody>
                     </table>
                 </div>

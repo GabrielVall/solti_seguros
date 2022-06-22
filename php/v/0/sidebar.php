@@ -31,11 +31,16 @@
                         <span class="side-menu__label">Clientes</span>
                     </a>
                 </li>
-                
                 <li class="slide">
                     <a class="side-menu__item" href="#referenciadores">
                         <svg class="svg-icon side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
                         <span class="side-menu__label">Referenciadores</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="#informantes">
+                        <svg class="svg-icon side-menu__icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M9.83 18l.59.59L12 20.17l1.59-1.59.58-.58H19V4H5v14h4.83zM12 5c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3zM6 15.58C6 13.08 9.97 12 12 12s6 1.08 6 3.58V17H6v-1.42z" opacity=".3"></path><path d="M9 20l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4zM5 4h14v14h-4.83l-.59.59L12 20.17l-1.59-1.59-.58-.58H5V4zm7 7c1.65 0 3-1.35 3-3s-1.35-3-3-3-3 1.35-3 3 1.35 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm6 8.58c0-2.5-3.97-3.58-6-3.58s-6 1.08-6 3.58V17h12v-1.42zM8.48 15c.74-.51 2.23-1 3.52-1s2.78.49 3.52 1H8.48z"></path></svg>
+                        <span class="side-menu__label">Informantes</span>
                     </a>
                 </li>
                 <li class="side-item side-item-category">Abogados</li>
