@@ -302,7 +302,25 @@ $(document).ready(function() {
         var id = $(this).parent().data('id');
         imprimir_vista('#form_cliente_content','editar_informante.php',id);
     });
-
+    // $.ajax({
+    //     url: '../php/v/0/ver_reporte.php',
+    //     type: 'POST',
+    //     success: function(data){
+    //         $('#contenido_modal').html(data);
+    //         $('#Extra').modal('show');
+    //     }
+    // });
+    // $(document).on('click', '#ver_reporte', function(){
+        
+    // });
+    function print_div(){
+        divName = 'card-body';
+        var printContents = document.getElementsByClassName(divName)[1].innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
     $(document).on('click', '#editar_cliente_form', function(){
         var id = $(this).data('id');
          // get all inputs of the form

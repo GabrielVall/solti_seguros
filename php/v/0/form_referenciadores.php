@@ -16,7 +16,7 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_referenciadores') !== false){
 ?>
 <div class="card  box-shadow-0">
     <div class="card-header">
-        <h4 class="card-title mb-1">Agregar un referenciador</h4>
+        <h4 class="card-title mb-1">Agregar un investigador</h4>
         <p class="mb-2">Agrega  los datos basicos de un nuevo referenciador.</p>
     </div>
     <div class="card-body pt-0">

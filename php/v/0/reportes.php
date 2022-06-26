@@ -55,7 +55,7 @@
                                         <a href="javascript:void(0);" class="btn btn-primary btn-sm">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="javascript:void(0);" class="btn btn-success btn-sm">
+                                        <a href="javascript:void(0);" id="ver_reporte" class="btn btn-success btn-sm">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a href="javascript:void(0);" class="btn btn-danger btn-sm">

@@ -48,11 +48,9 @@
 				<!-- Container closed -->
 			</div>
 		</div>
-		<div class="modal fade" id="modaldemo3"  aria-modal="true" role="dialog">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content modal-content-demo">
-					
-				</div>
+		<div class="modal fade" id="Extra" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-xl" id="contenido_modal" role="document">
+				
 			</div>
 		</div>
 		<!-- <div class="alert alert-solid-success alert-dismissible" role="alert" id="alerta">
