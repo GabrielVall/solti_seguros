@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 20-06-2022 a las 00:30:06
+-- Tiempo de generación: 26-06-2022 a las 20:04:27
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -64,6 +64,16 @@ SET @id_usuario = ( SELECT clientes.id_usuario FROM clientes
                   WHERE clientes.id_cliente = _ID);
 SET @id_info_contacto = ( SELECT info_contacto.id_info_contacto FROM info_contacto WHERE info_contacto.id_usuario = @id_usuario);
 DELETE FROM clientes WHERE id_cliente = @id_cliente;
+DELETE FROM usuarios WHERE usuarios.id_usuario = @id_usuario;
+DELETE FROM info_contacto WHERE info_contacto.id_info_contacto = @id_info_contacto;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_informante`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_informante` (IN `_ID` INT)  BEGIN
+SET @id_informante = _ID;
+SET @id_usuario = ( SELECT id_usuario FROM informantes WHERE informantes.id_informante = _ID);
+SET @id_info_contacto = ( SELECT info_contacto.id_info_contacto FROM info_contacto WHERE info_contacto.id_usuario = @id_usuario);
+DELETE FROM informantes WHERE id_informante = @id_informante;
 DELETE FROM usuarios WHERE usuarios.id_usuario = @id_usuario;
 DELETE FROM info_contacto WHERE info_contacto.id_info_contacto = @id_info_contacto;
 END$$
@@ -194,6 +204,29 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_editar_especialidad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_editar_especialidad` (IN `_ID` INT, IN `_NOMBRE` VARCHAR(500))  BEGIN
 UPDATE tipos_medicos SET nombre_tipo_medico = _NOMBRE WHERE id_tipo_medico = _ID;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_editar_informante`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_editar_informante` (IN `_NOMBRE` VARCHAR(500), IN `_APELLIDO_PATERNO` VARCHAR(500), IN `_APELLIDO_MATERNO` VARCHAR(500), IN `_TEL` VARCHAR(20), IN `_CORREO` VARCHAR(500), IN `_DIR` VARCHAR(500), IN `_ID_CIUDAD` INT, IN `_FAX` VARCHAR(50), IN `_USUARIO` VARCHAR(500), IN `_CODIGO` VARCHAR(500), IN `_GANANCIA` VARCHAR(500), IN `_ID` INT)  BEGIN
+SET @id_usuario = ( SELECT informantes.id_usuario FROM informantes
+WHERE informantes.id_informante = _ID);
+
+UPDATE usuarios SET usuarios.usuario = _USUARIO 
+WHERE usuarios.id_usuario = _ID;
+
+UPDATE info_contacto SET 
+info_contacto.nombre = _NOMBRE,
+info_contacto.apellido_paterno = _APELLIDO_PATERNO,
+info_contacto.apellido_materno = _APELLIDO_MATERNO,
+info_contacto.telefono = _TEL,
+info_contacto.mail = _CORREO,
+info_contacto.direccion = _DIR,
+info_contacto.id_ciudad = _ID_CIUDAD,
+info_contacto.fax = _FAX
+WHERE info_contacto.id_usuario = @id_usuario;
+
+UPDATE informantes SET informantes.codigo = _CODIGO, informantes.porcentaje_ganancia = _GANANCIA WHERE informantes.id_usuario = @id_usuario;
+
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_editar_medico`$$
@@ -348,6 +381,26 @@ DROP PROCEDURE IF EXISTS `sp_insertar_especialidad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_especialidad` (IN `_NOMBRE` VARCHAR(500))  BEGIN
 INSERT INTO tipos_medicos(nombre_tipo_medico)
 VALUES(_NOMBRE);
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insertar_informante`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_informante` (IN `_NOMBRE` VARCHAR(500), IN `_APELLIDO_PATERNO` VARCHAR(500), IN `_APELLIDO_MATERNO` VARCHAR(500), IN `_TEL` VARCHAR(20), IN `_CORREO` VARCHAR(500), IN `_DIR` VARCHAR(500), IN `_ID_CIUDAD` INT, IN `_FAX` VARCHAR(50), IN `_USUARIO` VARCHAR(500), IN `_PASS` VARCHAR(500), IN `_CODIGO` VARCHAR(500), IN `_GANANCIA` VARCHAR(500), OUT `_ID` INT)  BEGIN
+
+SET @ID = _ID;
+
+INSERT INTO usuarios(usuario,usuarios.password,id_estado_usuario)
+VALUES(_USUARIO,_PASS,1);
+
+SET @ID = @@IDENTITY;
+
+INSERT INTO info_contacto(id_usuario,nombre,
+apellido_paterno,apellido_materno,telefono,mail,direccion,id_ciudad,fax)
+VALUES(@ID,_NOMBRE,_APELLIDO_PATERNO,_APELLIDO_MATERNO,_TEL,_CORREO,
+_DIR,_ID_CIUDAD,_FAX);
+
+INSERT INTO informantes(id_usuario,codigo,porcentaje_ganancia)
+VALUES(@ID,_CODIGO,_GANANCIA);
+SET _ID = @ID;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insertar_medico`$$
@@ -521,6 +574,32 @@ DROP PROCEDURE IF EXISTS `sp_select_especialidades`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_especialidades` ()  BEGIN
 SELECT id_tipo_medico,nombre_tipo_medico
 FROM tipos_medicos;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_informante`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_informante` (IN `_ID` INT)  BEGIN
+SELECT 
+info_contacto.nombre,info_contacto.apellido_paterno,
+info_contacto.apellido_materno,info_contacto.telefono,
+info_contacto.mail,info_contacto.direccion,
+info_contacto.id_ciudad,info_contacto.fax,usuarios.usuario,
+informantes.codigo,informantes.porcentaje_ganancia
+FROM informantes
+INNER JOIN usuarios ON usuarios.id_usuario = informantes.id_usuario
+INNER JOIN info_contacto ON info_contacto.id_usuario = usuarios.id_usuario
+WHERE informantes.id_informante = _ID;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_informantes`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_informantes` ()  BEGIN
+SELECT info_contacto.id_info_contacto,info_contacto.nombre,
+info_contacto.apellido_paterno,info_contacto.apellido_materno,
+info_contacto.telefono,info_contacto.mail,
+info_contacto.direccion,info_contacto.id_ciudad,
+info_contacto.fax,informantes.id_informante
+FROM info_contacto
+INNER JOIN usuarios ON usuarios.id_usuario = info_contacto.id_usuario
+INNER JOIN informantes ON informantes.id_usuario = usuarios.id_usuario;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_medico`$$
@@ -713,6 +792,28 @@ INSERT INTO `clientes` (`id_cliente`, `id_usuario`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `informantes`
+--
+
+DROP TABLE IF EXISTS `informantes`;
+CREATE TABLE IF NOT EXISTS `informantes` (
+  `id_informante` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
+  `codigo` varchar(500) NOT NULL,
+  `porcentaje_ganancia` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_informante`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `informantes`
+--
+
+INSERT INTO `informantes` (`id_informante`, `id_usuario`, `codigo`, `porcentaje_ganancia`) VALUES
+(2, 64, '123', '15');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `info_contacto`
 --
 
@@ -729,7 +830,7 @@ CREATE TABLE IF NOT EXISTS `info_contacto` (
   `id_ciudad` int(11) NOT NULL,
   `fax` varchar(500) NOT NULL,
   PRIMARY KEY (`id_info_contacto`)
-) ENGINE=MyISAM AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `info_contacto`
@@ -748,7 +849,8 @@ INSERT INTO `info_contacto` (`id_info_contacto`, `id_usuario`, `nombre`, `apelli
 (44, 44, 'asd', 'asd', 'asd', '213', 'asd', 'ads', 1, '123'),
 (47, 47, 'ref12', 'asd', 'jhg', 'jhg', 'hjg', 'jhg', 1, '213'),
 (26, 26, 'asd', 'asd', 'asd', '213', 'asd', 'asd', 1, '213'),
-(62, 62, 'Gabriel', 'Vallejo', 'San Miguel', '8781383809', 'gabrielvallejo2000@gmail.com', 'Francisco coss 1187 Real del Norte', 1, '123456789'),
+(62, 62, 'Gabriel', 'Vallejo', 'San Miguel', '8781383809', 'gabrielvallejo2000@gmail.com', 'Francisco coss 1187 Real del Norte', 350, '123456789'),
+(64, 64, 'asd', 'das', 'asd', '123', 'asd', '123', 3, '123'),
 (60, 60, 'asd', 'asd', 'asd', '123', 'asd', 'asd', 1, '1234'),
 (55, 55, 'ref2w2', 'sasd', 'das', '213', 'ads', 'ads', 1, '231');
 
@@ -945,13 +1047,14 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `password` varchar(500) NOT NULL,
   `id_estado_usuario` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_usuario`)
-) ENGINE=MyISAM AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `usuario`, `password`, `id_estado_usuario`) VALUES
+(64, 'a_das4616', '$2y$10$a77PTSCNivMGiDxqgW3zzO8821OUk1HlnLIrgLVo37hPMN56gmK1q', 1),
 (9, 'asd', '$2y$10$GHYo8VzdpKGAqibm0LlpBuCXhtqTaVguXJCHTz3X7343uDp8cQnbK', 1),
 (62, 'va_gabriel4616', '$2y$10$VftIMUO./o80LJ8.SkmWZuow6CSguhMr7TmMpKpWlEAHyjabVBIYa', 1),
 (60, 'sad', '$2y$10$akeyCPqqaniZVVevAKyh3u6v2fUGr0GobU6DwHjiVEi42KOb0mvYK', 1),
