@@ -14,7 +14,15 @@ switch ($_SESSION['hash']) {
         $tabla = 'asistente';
     break;
 }
-
+$slash = $_SERVER['REQUEST_URI'];
+$slash = substr($slash, strrpos($slash, '/') + 1);
+// if includes clientes
+if($slash == 'clientes.php' || $slash == 'editar_cliente.php'){
+    $hidden = array(
+        'fax' => true,
+        'usuario' => true,
+    );
+}
 $cliente = $sql->obtenerResultado("CALL sp_select_".$tabla."('".$_POST['id']."')");
 ?>
 <div class="card  box-shadow-0">
@@ -48,10 +56,10 @@ $cliente = $sql->obtenerResultado("CALL sp_select_".$tabla."('".$_POST['id']."')
                     <option value="">Seleccione una ciudad</option>
                 </select>
             </div>
-            <div class="form-group" style="display:none;">
+            <div class="form-group" style="<?php if(isset($hidden['usuario'])){echo "display:none;";} ?>">
                 <input type="text" class="form-control" id="fax" placeholder="Fax" value="<?php echo $cliente[0]['fax']; ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['usuario'])){echo "display:none;";} ?>">
                 <input type="text" class="form-control" id="usuario" placeholder="Usuario" value="<?php echo $cliente[0]['usuario']; ?>">
             </div>
             <div class="form-group">

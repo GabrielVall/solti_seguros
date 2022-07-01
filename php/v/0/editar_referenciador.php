@@ -2,6 +2,15 @@
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
 $cliente = $sql->obtenerResultado("CALL sp_select_referenciador('".$_POST['id']."')");
+$slash = $_SERVER['REQUEST_URI'];
+$slash = substr($slash, strrpos($slash, '/') + 1);
+if($slash == 'referenciadores.php' || $slash == 'editar_referenciador.php'){
+    $hidden = array(
+        'fax' => true,
+        'direccion' => true,
+        'usuario' => true,
+    );
+}
 ?>
 <div class="card  box-shadow-0">
     <div class="card-header">
@@ -25,7 +34,7 @@ $cliente = $sql->obtenerResultado("CALL sp_select_referenciador('".$_POST['id'].
             <div class="form-group">
                 <input type="email" class="form-control" id="correo" placeholder="correo" value="<?php echo $cliente[0]['mail']; ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['direccion'])){echo "display:none;";} ?>">
                 <input type="text" class="form-control" id="direccion" placeholder="Dirección" value="<?php echo $cliente[0]['direccion']; ?>">
             </div>
             <div class="form-group">
@@ -34,10 +43,10 @@ $cliente = $sql->obtenerResultado("CALL sp_select_referenciador('".$_POST['id'].
                     <option value="">Seleccione una ciudad</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['fax'])){echo "display:none;";} ?>">
                 <input type="text" class="form-control" id="fax" placeholder="Fax" value="<?php echo $cliente[0]['fax']; ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['usuario'])){echo "display:none;";} ?>">
                 <input type="text" class="form-control" id="usuario" placeholder="Usuario" value="<?php echo $cliente[0]['usuario']; ?>">
             </div>
             <div class="form-group">

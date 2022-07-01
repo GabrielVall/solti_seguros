@@ -13,6 +13,16 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_referenciadores') !== false){
 }else{
     $hash = $_SESSION['hash'];
 }
+$slash = $_SERVER['REQUEST_URI'];
+$slash = substr($slash, strrpos($slash, '/') + 1);
+// if includes clientes
+if($slash == 'referenciadores.php' || $slash == 'form_referenciadores.php'){
+    $hidden = array(
+        'fax' => true,
+        'direccion' => true,
+        'usuario' => true,
+    );
+}
 ?>
 <div class="card  box-shadow-0">
     <div class="card-header">
@@ -41,9 +51,9 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_referenciadores') !== false){
                 <label for="correo">Correo electronico</label>
                 <input type="email" class="form-control" id="correo" placeholder="correo">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['direccion'])){echo "display:none;";} ?>">
                 <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" placeholder="Dirección">
+                <input type="text" class="form-control" <?php if(isset($hidden['direccion'])){echo 'value="Sin Valor"';} ?>  id="direccion" placeholder="Dirección">
             </div>
             <div class="form-group">
                 <label for="ciudad">Ciudad</label>
@@ -51,13 +61,13 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_referenciadores') !== false){
                     <option value="">Seleccione una ciudad</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['fax'])){echo "display:none;";} ?>">
                 <label for="fax">Fax</label>
-                <input type="text" class="form-control" id="fax" placeholder="Fax">
+                <input type="text" class="form-control" <?php if(isset($hidden['fax'])){echo 'value="Sin Valor"';} ?>  id="fax" placeholder="Fax">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['usuario'])){echo "display:none;";} ?>">
                 <label for="usuario">Nombre de usuario</label>
-                <input type="text" class="form-control" id="usuario" placeholder="Usuario">
+                <input type="text" class="form-control" <?php if(isset($hidden['usuario'])){echo 'value="Sin Valor"';} ?> id="usuario" placeholder="Usuario">
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
