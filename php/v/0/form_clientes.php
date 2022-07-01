@@ -16,10 +16,16 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
 $slash = $_SERVER['REQUEST_URI'];
 $slash = substr($slash, strrpos($slash, '/') + 1);
 // if includes clientes
-if($slash == 'clientes.php' || $slash == 'form_clientes.php'){
+if($_SESSION['hash'] == 'clientes'){
     $hidden = array(
         'fax' => true,
         'usuario' => true,
+        'direccion' => true,
+    );
+}
+else if($_SESSION['hash'] == 'asistentes' ){
+    $hidden = array(
+        'direccion' => true,
     );
 }
 // Get url
@@ -52,9 +58,9 @@ if($slash == 'clientes.php' || $slash == 'form_clientes.php'){
                 <label for="correo">Correo electronico</label>
                 <input type="email" class="form-control" id="correo" placeholder="correo">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['direccion'])){echo "display:none;";} ?>">
                 <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" placeholder="Dirección">
+                <input type="text" class="form-control" <?php if(isset($hidden['direccion'])){echo 'value="Sin Valor"';} ?> id="direccion" placeholder="Dirección">
             </div>
             <div class="form-group">
                 <label for="ciudad">Ciudad</label>

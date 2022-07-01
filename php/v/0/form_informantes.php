@@ -13,6 +13,13 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_informantes') !== false){
 }else{
     $hash = $_SESSION['hash'];
 }
+if($_SESSION['hash'] == 'informantes'){
+    $hidden = array(
+        'correo' => true,
+        'direccion' => true,
+        'fax' => true,
+    );
+}
 ?>
 <div class="card  box-shadow-0">
     <div class="card-header">
@@ -37,13 +44,13 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_informantes') !== false){
                 <label for="telefono">Telefono</label>
                 <input type="text" class="form-control" id="telefono" placeholder="Telefono">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['correo'])){echo "display:none;";} ?>">
                 <label for="correo">Correo electronico</label>
-                <input type="email" class="form-control" id="correo" placeholder="correo">
+                <input type="email" <?php if(isset($hidden['correo'])){echo 'value="Sin Valor"';} ?> class="form-control" id="correo" placeholder="correo">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['direccion'])){echo "display:none;";} ?>">
                 <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" placeholder="Dirección">
+                <input type="text" <?php if(isset($hidden['direccion'])){echo 'value="Sin Valor"';} ?> class="form-control" id="direccion" placeholder="Dirección">
             </div>
             <div class="form-group">
                 <label for="ciudad">Ciudad</label>
@@ -51,9 +58,9 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_informantes') !== false){
                     <option value="">Seleccione una ciudad</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['fax'])){echo "display:none;";} ?>">
                 <label for="fax">Fax</label>
-                <input type="text" class="form-control" id="fax" placeholder="Fax">
+                <input type="text" <?php if(isset($hidden['fax'])){echo 'value="Sin Valor"';} ?> class="form-control" id="fax" placeholder="Fax">
             </div>
             <div class="form-group">
                 <label for="usuario">Nombre de usuario</label>

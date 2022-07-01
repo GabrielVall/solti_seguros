@@ -1,7 +1,15 @@
-<?php 
+<?php
+session_start();
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
 $cliente = $sql->obtenerResultado("CALL sp_select_informante('".$_POST['id']."')");
+if($_SESSION['hash'] == 'informantes'){
+    $hidden = array(
+        'correo' => true,
+        'direccion' => true,
+        'fax' => true,
+    );
+}
 ?>
 <div class="card  box-shadow-0">
     <div class="card-header">
@@ -22,10 +30,10 @@ $cliente = $sql->obtenerResultado("CALL sp_select_informante('".$_POST['id']."')
             <div class="form-group">
                 <input type="text" class="form-control" id="telefono" placeholder="Telefono" value="<?php echo $cliente[0]['telefono']; ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['correo'])){echo "display:none;";} ?>">
                 <input type="email" class="form-control" id="correo" placeholder="correo" value="<?php echo $cliente[0]['mail']; ?>">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['direccion'])){echo "display:none;";} ?>">
                 <input type="text" class="form-control" id="direccion" placeholder="Dirección" value="<?php echo $cliente[0]['direccion']; ?>">
             </div>
             <div class="form-group">
@@ -34,7 +42,7 @@ $cliente = $sql->obtenerResultado("CALL sp_select_informante('".$_POST['id']."')
                     <option value="">Seleccione una ciudad</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['fax'])){echo "display:none;";} ?>">
                 <input type="text" class="form-control" id="fax" placeholder="Fax" value="<?php echo $cliente[0]['fax']; ?>">
             </div>
             <div class="form-group">
