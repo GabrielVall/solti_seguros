@@ -48,7 +48,7 @@ $cliente = $sql->obtenerResultado("CALL sp_select_".$tabla."('".$_POST['id']."')
                     <option value="">Seleccione una ciudad</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <input type="text" class="form-control" id="fax" placeholder="Fax" value="<?php echo $cliente[0]['fax']; ?>">
             </div>
             <div class="form-group">

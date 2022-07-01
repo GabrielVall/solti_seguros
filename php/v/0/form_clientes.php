@@ -13,7 +13,15 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
 }else{
     $hash = $_SESSION['hash'];
 }
-
+$slash = $_SERVER['REQUEST_URI'];
+$slash = substr($slash, strrpos($slash, '/') + 1);
+// if includes clientes
+if($slash == 'clientes.php' || $slash == 'form_clientes.php'){
+    $hidden = array(
+        'fax' => true,
+        'usuario' => true,
+    );
+}
 // Get url
 // get text after last slash
 ?>
@@ -54,13 +62,13 @@ if(!strpos($_SERVER['REQUEST_URI'], 'form_clientes') !== false){
                     <option value="">Seleccione una ciudad</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['fax'])){echo "display:none;";} ?>">
                 <label for="fax">Fax</label>
-                <input type="text" class="form-control" id="fax" placeholder="Fax">
+                <input type="text" class="form-control" <?php if(isset($hidden['fax'])){echo 'value="Sin Valor"';} ?>  id="fax" placeholder="Fax">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="<?php if(isset($hidden['usuario'])){echo "display:none;";} ?>">
                 <label for="usuario">Nombre de usuario</label>
-                <input type="text" class="form-control" id="usuario" placeholder="Usuario">
+                <input type="text" class="form-control" <?php if(isset($hidden['usuario'])){echo 'value="Sin Valor"';} ?> id="usuario" placeholder="Usuario">
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
