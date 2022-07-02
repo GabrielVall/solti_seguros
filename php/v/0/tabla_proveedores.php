@@ -11,7 +11,7 @@ if ($total_resultado > 0) {
     for($i = 0; $i < $total_resultado; $i++){ ?>
         <tr>
             <th scope="row">#<?php echo $resultado[$i][9]; ?></th>
-            <td><?php echo $resultado[$i]['nombre']; ?></td>
+            <td><?php echo $resultado[$i]['nombre_proveedor']; ?></td>
             <td style="display:flex;justify-content:space-around;" data-id="<?php echo $resultado[$i][9]; ?>">
                 <a href="javascript:void(0);" class="btn btn-success btn-sm" id="editar_proveedor">
                     <i class="fa fa-edit"></i>

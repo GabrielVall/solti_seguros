@@ -246,6 +246,10 @@ $(document).ready(function() {
         imprimir_vista('#form_cliente_content','form_clientes.php',0);
     });
 
+    $(document).on('click','#cancelar_editar_aseguradora', function(e){
+        imprimir_vista('#form_aseguradora_content','form_proveedores.php',0);
+    });
+
     $(document).on('click','#cancelar_editar_especialidad', function(e){
         imprimir_vista('#form_cliente_content','form_especialidades.php',0);
     });
