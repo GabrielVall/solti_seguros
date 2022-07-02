@@ -306,17 +306,17 @@ $(document).ready(function() {
         var id = $(this).parent().data('id');
         imprimir_vista('#form_cliente_content','editar_informante.php',id);
     });
-    // $.ajax({
-    //     url: '../php/v/0/ver_reporte.php',
-    //     type: 'POST',
-    //     success: function(data){
-    //         $('#contenido_modal').html(data);
-    //         $('#Extra').modal('show');
-    //     }
-    // });
-    // $(document).on('click', '#ver_reporte', function(){
-        
-    // });
+    
+    $(document).on('click', '#ver_reporte', function(){
+        $.ajax({
+            url: '../php/v/0/ver_reporte.php',
+            type: 'POST',
+            success: function(data){
+                $('#contenido_modal').html(data);
+                $('#Extra').modal('show');
+            }
+        });
+    });
     function print_div(){
         divName = 'card-body';
         var printContents = document.getElementsByClassName(divName)[1].innerHTML;
