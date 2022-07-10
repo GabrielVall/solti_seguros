@@ -8832,7 +8832,7 @@ textarea.custom-file-input.parsley-error:focus~.custom-file-label {
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 9999999;
+    z-index: 4999;
     background-color: #000;
 }
 
@@ -8845,7 +8845,7 @@ textarea.custom-file-input.parsley-error:focus~.custom-file-label {
 }
 
 .modal {
-    z-index: 99999999;
+    z-index: 5000;
 }
 
 .modal-header {
@@ -90840,4 +90840,7 @@ a.text-dark:focus {
 }
 .button_input{
     padding: 0 10px 0 10px !important;
+}
+.form-horizontal .select2{
+    width: 100% !important;
 }

@@ -18,6 +18,13 @@ $(document).ready(function() {
     function cambiar_hash(){
         hash = window.location.hash;
         hash = hash.substring(1);
+        // if contains ?
+        if(hash.indexOf('?') != -1){
+            get_search_params();
+        }else{
+            // hide any modal
+            $('.modal').modal('hide');
+        }
         if(hash == ''){
             window.location.hash = '#inicio';
         }else{
@@ -37,6 +44,63 @@ $(document).ready(function() {
                 }
             });
         }
+    }
+    function cargar_fechas(){
+        flatpickr("[type='date']", {
+            locale: {
+                firstDayOfWeek: 1,
+                weekdays: {
+                  shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                  longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
+                }, 
+                months: {
+                  shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
+                  longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                },
+              },
+        });
+        flatpickr("[type='time']", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            locale: {
+                firstDayOfWeek: 1,
+                weekdays: {
+                  shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                  longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
+                }, 
+                months: {
+                  shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
+                  longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                },
+              },
+        });
+    }
+    function get_search_params(url){
+        //get string after ?
+        var url = hash;
+        var url = url.split('?');
+        var url = url[1];
+        // if contains modal
+        if(url.indexOf('modal') != -1){
+            // get text after = 
+            var url = url.split('=');
+            var url = url[1];
+            show_modal(url);
+        }
+    }
+    function show_modal(file){
+        $.ajax({
+            url: '../php/v/0/'+file+'.php',
+            type: 'POST',
+            success: function(data){
+                $('#modaldemo3').find('.modal-content').html(data);
+                $('#modaldemo3').modal('show');
+                setTimeout(function(){
+                    cargar_fechas();
+                },500);
+            }
+        });
     }
     function cargar_funciones_hash(){
         cargar_estados_selects();
@@ -317,6 +381,16 @@ $(document).ready(function() {
             }
         });
     });
+    $(document).on('click', '#modal_agregar_reporte', function(){
+        $.ajax({
+            url: '../php/v/0/modal_reporte.php',
+            type: 'POST',
+            success: function(data){
+                $('#modaldemo3').find('.modal-content').html(data);
+                $('#modaldemo3').modal('show');
+            }
+        });
+    });
     function print_div(){
         divName = 'card-body';
         var printContents = document.getElementsByClassName(divName)[1].innerHTML;
@@ -475,7 +549,44 @@ $(document).ready(function() {
              }
          });
     });
-
+    $(document).on('click', '#agregar_reporte', function(){
+        insertar_datos('#form_reporte');
+    });
+    function insertar_datos(contenedor){
+        var inputs = $(contenedor).find(':input:not(:disabled):not(:submit):not(:reset):not(:button):not(hidden)');
+        // add in form data
+        console.log(inputs);
+        var form_data = new FormData();
+        for(var i=0; i<inputs.length; i++){
+            form_data.append(inputs[i].id, inputs[i].value);
+        }
+        $.ajax({
+            url: '../php/c/0/insertar_reporte.php',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: form_data,
+            success: function(data){
+                data = JSON.parse(data);
+                if(data.status == 'success'){
+                    window.location.href = '#reportes';
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.success('Registro agregado');
+                    
+                }
+            }
+        });
+    }
+    function validar_inputs(contenedor){
+        var inputs = $(contenedor).find(':input');
+        var valido = 0;
+        for(var i=0; i<inputs.length; i++){
+            if(inputs[i].value == ''){
+                valido++;
+            }
+        }
+        return valido;
+    }
     function imprimir_vista(id,file,datos){
         $.ajax({
             url: '../php/v/0/'+file,

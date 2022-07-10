@@ -4,7 +4,7 @@
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
                     <h4 class="card-title mg-b-0">Ultimos reportes</h4>
-                    <a class="btn ripple btn-primary shadow float-end" data-bs-target="#modaldemo3" data-bs-toggle="modal" href="">Agregar reporte</a>
+                    <a class="btn ripple btn-primary shadow float-end" href="#reportes?modal=agregar_reporte">Agregar reporte</a>
                 </div>
                 <p class="tx-12 tx-gray-500 mb-2">Estos son los reportes más recientes</p>
             </div>

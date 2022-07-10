@@ -23,6 +23,7 @@
 		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js" integrity="sha512-bUg5gaqBVaXIJNuebamJ6uex//mjxPk8kljQTdM1SwkNrQD7pjS+PerntUSD+QRWPNJ0tq54/x4zRV8bLrLhZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.css" integrity="sha512-DanfxWBasQtq+RtkNAEDTdX4Q6BPCJQ/kexi/RftcP0BcA4NIJPSi7i31Vl+Yl5OCfgZkdJmCqz+byTOIIRboQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
 	<body class="ltr main-body app sidebar-mini">
 		<div class="page">
@@ -53,6 +54,28 @@
 				
 			</div>
 		</div>
+		<div class="modal fade" id="modaldemo3" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Large Modal</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+					</div>
+					<div class="modal-body">
+						<h6>Modal Body</h6>
+						<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+					</div>
+					<div class="modal-footer">
+						<button class="btn ripple btn-primary" type="button">Save changes</button>
+						<button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<style>
+			.alertify-notifier {
+    		z-index: 999999 !important;
+		}
+		</style>
 		<!-- <div class="alert alert-solid-success alert-dismissible" role="alert" id="alerta">
 			<strong id="alert_top">Mensaje</strong> <span id="alert_text">Texto del mensaje</span>
 			<button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
@@ -104,6 +127,7 @@
 		<script src="nowa/nowa_demo/assets/js/themecolor.js"></script>
 		<!-- custom js -->
 		<script src="nowa/nowa_demo/assets/js/custom.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js" integrity="sha512-K/oyQtMXpxI4+K0W7H25UopjM8pzq0yrVdFdG21Fh5dBe91I40pDd9A4lzNlHPHBIP2cwZuoxaUSX0GJSObvGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<!-- Switcher js -->
 		<!-- <script src="nowa/nowa_demo/assets/switcher/js/switcher.js"></script> -->
 		<script src="js/main.js?0.1"></script>
