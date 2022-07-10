@@ -14,7 +14,13 @@ $(document).ready(function() {
     $(window).on('hashchange', function() {
         cambiar_hash();
     });
-    
+    $(document).on('click', '.btn-close', function(e) {
+        // get hash
+        var hash = window.location.hash;
+        // remove text after ?
+        hash = hash.split('?')[0];
+        window.location.hash = hash;
+    });
     function cambiar_hash(){
         hash = window.location.hash;
         hash = hash.substring(1);
@@ -26,7 +32,7 @@ $(document).ready(function() {
             $('.modal').modal('hide');
         }
         if(hash == ''){
-            window.location.hash = '#inicio';
+            window.location.hash = '#reportes';
         }else{
             $('[href]').removeClass('active');
             $('[href="#'+hash+'"]').addClass('active');
@@ -553,11 +559,12 @@ $(document).ready(function() {
         insertar_datos('#form_reporte');
     });
     function insertar_datos(contenedor){
-        var inputs = $(contenedor).find(':input:not(:disabled):not(:submit):not(:reset):not(:button):not(hidden)');
-        // add in form data
-        console.log(inputs);
+        var inputs = $(contenedor).find(':input:not(:disabled):not(:submit):not(:reset):not(:button):not(hidden)');;
         var form_data = new FormData();
         for(var i=0; i<inputs.length; i++){
+            if(inputs[i].value == ''){
+                inputs[i].value = ' ';
+            }
             form_data.append(inputs[i].id, inputs[i].value);
         }
         $.ajax({

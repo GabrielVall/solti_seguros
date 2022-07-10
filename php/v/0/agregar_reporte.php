@@ -18,7 +18,6 @@ $total_aseguradoras = count($aseguradoras);
         <div class="form-group">
             <label>Selecciona un cliente</label>
             <select class="form-control" id="cliente">
-                <option>Selecciona un cliente</option>
                 <?php 
                     foreach($clientes as $cliente){
                         echo '<option value="'.$cliente[0].'">'.$cliente[1].'</option>';
@@ -28,11 +27,11 @@ $total_aseguradoras = count($aseguradoras);
         </div>
         <div class="form-group">
             <label>Fecha del accidente</label>
-            <input class="form-control" type="date" id="fecha" placeholder="Introduce una fecha"/>
+            <input class="form-control" type="date" id="fecha" value="<?php echo date("Y-m-d");  ?>" placeholder="Introduce una fecha"/>
         </div>
         <div class="form-group">
             <label>Hora</label>
-            <input class="form-control" type="time" placeholder="Selecciona una hora" id="hora"/>
+            <input class="form-control" type="time" value="<?php echo date("H:i");  ?>" placeholder="Selecciona una hora" id="hora"/>
         </div>
         <div class="form-group">
             <label>Ciudad de origen</label>

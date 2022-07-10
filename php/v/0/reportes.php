@@ -1,4 +1,53 @@
+<?php
+include_once('../../m/SQLConexion.php');
+$sql = new SQLConexion();
+$resultado = $sql->obtenerResultado('CALL sp_select_reportes()');
+$total_resultado = count($resultado);
+$ciudades = file_get_contents('../../../admin/js/estados-municipios.json');
+$ciudades = json_decode($ciudades, true);
+function ciudad_name($id){
+    global $ciudades;
+    foreach($ciudades as $ciudad){
+        if($ciudad['id'] == $id){
+            return $ciudad['name'];
+        }
+    }
+}
+function estado_name($id){
+    global $ciudades;
+    foreach($ciudades as $ciudad){
+        if($ciudad['id'] == $id){
+            return $ciudad['state'];
+        }
+    }
+}
+?>
+
 <div class="row">
+<div class="row d-flex justify-content-between w-100">
+    <div class="col-xl-5">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
+                            <div class="text-justified align-items-center">
+                                <h3 class="text-dark font-weight-semibold mb-2 mt-0">Hola, Bienvenido de vuelta <span class="text-primary">Administrador!</span></h3>
+                                <p class="text-dark tx-14 mb-3 lh-3"> Has atendido todos los reportes, te notificaremos cuendo recibas uno nuevo.</p>
+                                <button class="btn btn-primary shadow">Ver reportes anteriores</button>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
+                            <div class="chart-circle float-md-end mt-4 mt-md-0" data-value="0.85" data-thickness="8" data-color=""><canvas width="96" height="96"></canvas><canvas width="100" height="100"></canvas>
+                                <div class="chart-circle-value circle-style"><div class="tx-18 font-weight-semibold">100%</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header pb-0">
@@ -13,56 +62,58 @@
                     <table class="table table-bordered table-striped mg-b-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>Id Reporte</th>
-                                <th>Fecha Reporte</th>
-                                <th>Fecha Accidente</th>
-                                <th>Hora</th>
+                                <th>Id reporte</th>
+                                <th>Fecha reporte</th>
+                                <th>Fecha accidente</th>
                                 <th>Cliente</th>
-                                <th>Ubicación</th>
+                                <th>Ciudad</th>
+                                <th>Hora accidente</th>
+                                <th>Estado</th>
                                 <th>Comentarios</th>
                                 <th>Referenciado</th>
                                 <th>Tipo</th>
-                                <th>Estado</th>
+                                <th>Status</th>
                                 <th>Abogado</th>
                                 <th>Asistente</th>
-                                <th>No. Poliza</th>
+                                <th>Numero poliza</th>
                                 <th>Aseguradora</th>
-                                <th>Reporte policia</th>
-                                <th>Número de reclamo</th>
+                                <th>Reporte policial</th>
+                                <th>Numero reclamo</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php 
+                            foreach($resultado as $reporte){ ?>
                             <tr>
-                                <td>#9230</td>
-                                <td>12/12/2019</td>
-                                <td>12/12/2019</td>
-                                <td>12:00</td>
-                                <td>Juan Perez</td>
-                                <td>Piedras Negras Coahuila</td>
-                                <td>Sin comentarios</td>
-                                <td>Calle / Oficina</td>
-                                <td>Comercial</td>
-                                <td>Pendiente</td>
-                                <td>Juan Perez</td>
-                                <td>Juan Perez</td>
-                                <td>#123456789</td>
-                                <td>Aseguradora Default</td>
-                                <td>#1497821</td>
-                                <td>#1234567</td>
+                                <?php echo '<td>'.$reporte[0].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[1].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[2].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[3].'</td>'; ?>
+                                <?php echo '<td>'.ciudad_name($reporte[4]).'</td>'; ?>
+                                <?php echo '<td>'.$reporte[5].'</td>'; ?>
+                                <?php echo '<td>'.estado_name($reporte[4]).'</td>'; ?>
+                                <?php echo '<td>'.$reporte[7].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[8].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[9].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[10].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[11].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[12].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[13].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[14].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[15].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[16].'</td>'; ?>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm">
+                                        <a href="javascript:void(0);" id="ver_reporte" class="btn btn-primary btn-sm">
                                             <i class="fa fa-eye"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" id="ver_reporte" class="btn btn-success btn-sm">
-                                            <i class="fa fa-edit"></i>
                                         </a>
                                         <a href="javascript:void(0);" class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </div>
                             </td></tr>
+                           <?php } ?>
                         </tbody>
                     </table>
                     <!-- <div class="not-found-items">

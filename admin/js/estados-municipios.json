@@ -2,16 +2,16 @@
   {
     "id": 1,
     "name": "Laredo eagle pas",
-    "state_id": 4
+    "state": "Texas"
   },
   {
     "id": 2,
     "name": "San Antonio",
-    "state_id": 4
+    "state": "Texas"
   },
   {
     "id": 3,
     "name": "Del Río",
-    "state_id": 4
+    "state": "Texas"
   }
 ]
