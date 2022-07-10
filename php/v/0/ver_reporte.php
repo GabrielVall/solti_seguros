@@ -1,6 +1,30 @@
-<div class="modal-content modal-content-demo">
+<?php 
+include_once('../../m/SQLConexion.php');
+$sql = new SQLConexion();
+$reporte = $sql->obtenerResultado('CALL sp_select_reporte("'.$_POST['id'].'")');
+$total_reporte = count($reporte);
+$cliente = $sql->obtenerResultado('CALL sp_select_cliente("'.$reporte[0]['id_cliente'].'")');
+$ciudades = file_get_contents('../../../admin/js/estados-municipios.json');
+$ciudades = json_decode($ciudades, true);
+function ciudad_name($id){
+    global $ciudades;
+    foreach($ciudades as $ciudad){
+        if($ciudad['id'] == $id){
+            return $ciudad['name'];
+        }
+    }
+}
+function estado_name($id){
+    global $ciudades;
+    foreach($ciudades as $ciudad){
+        if($ciudad['id'] == $id){
+            return $ciudad['state'];
+        }
+    }
+}
+?>
     <div class="modal-header">
-        <h6 class="modal-title">Detalles del reporte #202200021</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+        <h6 class="modal-title">Detalles del reporte #<?php echo $_POST['id']; ?></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body" style="margin: 0;padding: 0;">
     <div class="card custom-card" style="margin-bottom:0px;">
@@ -8,24 +32,25 @@
             <div class="d-lg-flex">
                 <h6 class="main-content-label mb-1"><span class="d-flex mb-4"><a href="#"><img src="logo2_white.png" class="sign-favicon ht-40" alt="logo"></a></span></h6>
                 <div class="ms-auto">
-                    <p class="mb-1"><span class="font-weight-bold">Folio: #202200021</span></p>
+                    <p class="mb-1"><span class="font-weight-bold">Folio: <?php echo $_POST['id']; ?></span></p>
                 </div>
             </div>
             <div class="row row-sm">
                 <div class="col-lg-6 ">
-                    <p class="h3">Reporte desde:</p>
+                    <p class="h3">Datos del reporte:</p>
                     <address>
-                        Calle #782 Rogan<br>
-                        San Antonio, Texas<br>
-                        EUA, 93021<br>
-                        rodrigobravo@correo.com<br>
-                        Comentarios:Dolor en espalda baja<br>
-                        Hora reporte: 12:00 PM<br>
+                        Fecha reporte: <?php echo $reporte[0]['fecha_reporte']; ?><br>
+                        Ubicación: <?php echo ciudad_name($reporte[0]['id_ciudad']); ?>, <?php echo estado_name($reporte[0]['id_ciudad']); ?><br>
+                        Abogado acargo: <?php echo $reporte[0]['nombre_abogado'] ?><br>
+                        Asistente: <?php echo $reporte[0]['nombre_asistente'] ?><br>
+                        Referenciado: <?php echo $reporte[0]['referenciado'] ?><br>
+                        
+                        Reclamo: <?php echo $reporte[0]['numero_reclamo'] ?><br>
                     </address>
                     <div class="">
                         <p class="mb-1"><span class="font-weight-bold">Fecha del reporte:</span></p>
                             <address>
-                                23 de julio del 2022
+                            <?php echo $reporte[0]['fecha_reporte']; ?>
                             </address>
                     </div>
                 </div>
@@ -33,16 +58,17 @@
                     <p class="h3">Datos cliente:</p>
                     <address>
                         Street Address<br>
-                        Gabriel Vallejo San Miguel<br>
-                        Tipo: Comercial<br>
-                        Aseguranza: Aseguradora Default<br>
-                        Numero de reclamo: #1234567<br>
-                        Telefono: +1 (555) 123-4567
+                        <?php echo $cliente[0]['nombre']; ?> <?php echo $cliente[0]['apellido_paterno']; ?>  <?php echo $cliente[0]['apellido_materno']; ?><br>
+                        Tipo: <?php echo $reporte[0]['tipo'] ?><br>
+                        Aseguradora: <?php echo $reporte[0]['nombre_aseguradora'] ?><br>
+                        Telefono:<?php echo $cliente[0]['telefono'] ?><br>
+                        Reporte policial: <?php echo $reporte[0]['reporte_policia'] ?><br>
+                        
                     </address>
                     <div class="">
                         <p class="mb-1"><span class="font-weight-bold">Fecha del accidente:</span></p>
                             <address>
-                                23 de julio del 2022
+                            <?php echo $reporte[0]['fecha_accidente']; ?> <?php echo $reporte[0]['hora_accidente']; ?>
                             </address>
                     </div>
                 </div>
@@ -119,4 +145,3 @@
         </div>
     </div>
     </div>
-</div>

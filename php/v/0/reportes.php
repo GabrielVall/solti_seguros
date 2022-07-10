@@ -105,7 +105,7 @@ function estado_name($id){
                                 <?php echo '<td>'.$reporte[16].'</td>'; ?>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="javascript:void(0);" id="ver_reporte" class="btn btn-primary btn-sm">
+                                        <a  href="#reportes?modal=ver_reporte[id=<?php echo $reporte[0]; ?>]" class="btn btn-primary btn-sm">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                         <a href="javascript:void(0);" class="btn btn-danger btn-sm">

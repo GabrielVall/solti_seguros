@@ -24,6 +24,8 @@ $(document).ready(function() {
     function cambiar_hash(){
         hash = window.location.hash;
         hash = hash.substring(1);
+        // delete string after [
+        hash = hash.split('[')[0];
         // if contains ?
         if(hash.indexOf('?') != -1){
             get_search_params();
@@ -96,9 +98,16 @@ $(document).ready(function() {
         }
     }
     function show_modal(file){
+        var info = window.location.hash;
+        // remove text begore [
+        info = info.split('[')[1];
+        // remove ] from string
+        info = info.split(']')[0];
+        // data to post
         $.ajax({
             url: '../php/v/0/'+file+'.php',
             type: 'POST',
+            data: info,
             success: function(data){
                 $('#modaldemo3').find('.modal-content').html(data);
                 $('#modaldemo3').modal('show');
