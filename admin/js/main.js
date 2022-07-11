@@ -42,6 +42,11 @@ $(document).ready(function() {
             // hide any modal
             $('.modal').modal('hide');
         }
+        // if hash has ?
+        if(hash.indexOf('?') != -1){
+        // remove text after ?
+        hash = hash.split('?')[0];
+        }
         if(hash == ''){
             window.location.hash = '#reportes';
         }else{
@@ -443,9 +448,12 @@ $(document).ready(function() {
             }
         });
     });
-    function print_div(){
-        divName = 'card-body';
-        var printContents = document.getElementsByClassName(divName)[1].innerHTML;
+    $(document).on('click', '#print_div', function(){
+        var content = $(this).data('div');
+        print_div(content);
+    });
+    function print_div(divName){
+        var printContents = document.getElementById(divName).innerHTML;
         var originalContents = document.body.innerHTML;
         document.body.innerHTML = printContents;
         window.print();
