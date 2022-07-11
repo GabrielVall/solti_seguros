@@ -14,7 +14,7 @@ $total_aseguradoras = count($aseguradoras);
     <h6 class="modal-title">Agregar un reporte</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
 </div>
 <div class="modal-body" id="form_reporte">
-    <div class="form-horizontal">
+    <div class="form-horizontal ignore">
         <div class="form-group">
             <label>Selecciona un cliente</label>
             <select class="form-control" id="cliente">

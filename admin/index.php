@@ -1,3 +1,11 @@
+<?php 
+session_start();
+if(!isset($_SESSION['id_usuario'])){
+	include '../php/v/0/login.php';
+	exit;
+}
+
+?>
 <!doctype html>
 <html lang="en" dir="ltr">
 	<head>

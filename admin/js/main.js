@@ -2,6 +2,15 @@
 var hash = '';
 var estados = [];
 $(document).ready(function() {
+    $(document).on('click', '#cerrar_sesion', function() {
+        $.ajax({
+            type: 'POST',
+            url: '../php/c/0/cerrar_sesion.php',
+            success: function() {
+                location.reload();
+            }
+        });
+    });
     cambiar_hash();
     $(document).ajaxStart(function() {
         NProgress.start();
@@ -100,9 +109,15 @@ $(document).ready(function() {
     function show_modal(file){
         var info = window.location.hash;
         // remove text begore [
+            // if string has [
+        if(info.indexOf('[') != -1){
         info = info.split('[')[1];
+        }
+        // if string has ]
+        if(info.indexOf(']') != -1){
         // remove ] from string
         info = info.split(']')[0];
+        }
         // data to post
         $.ajax({
             url: '../php/v/0/'+file+'.php',
@@ -287,7 +302,7 @@ $(document).ready(function() {
     }
     $(document).on('click','#submit_form', function(e){
         // get all inputs of the form
-        var inputs = $('.form-horizontal').find(':input');
+        var inputs = $('.form-horizontal:not(.ignore)').find(':input');
         // add in form data
         var form_data = new FormData();
         for(var i=0; i<inputs.length; i++){
@@ -417,7 +432,7 @@ $(document).ready(function() {
     $(document).on('click', '#editar_cliente_form', function(){
         var id = $(this).data('id');
          // get all inputs of the form
-         var inputs = $('.form-horizontal').find(':input');
+         var inputs = $('.form-horizontal:not(.ignore)').find(':input');
          // add in form data
          var form_data = new FormData();
          for(var i=0; i<inputs.length; i++){
@@ -450,7 +465,7 @@ $(document).ready(function() {
     $(document).on('click', '#editar_especialidad_form', function(){
         var id = $(this).data('id');
          // get all inputs of the form
-         var inputs = $('.form-horizontal').find(':input');
+         var inputs = $('.form-horizontal:not(.ignore)').find(':input');
          // add in form data
          var form_data = new FormData();
          for(var i=0; i<inputs.length; i++){
@@ -478,9 +493,9 @@ $(document).ready(function() {
     $(document).on('click', '#editar_medico_form', function(){
         var id = $(this).data('id');
          // get all inputs of the form
-         var inputs = $('.form-horizontal').find(':input');
+         var inputs = $('.form-horizontal:not(.ignore)').find(':input');
         //  Agregar selects
-        var selects = $('.form-horizontal').find('select');
+        var selects = $('.form-horizontal:not(.ignore)').find('select');
          // add in form data
          var form_data = new FormData();
          for(var i=0; i<inputs.length; i++){
@@ -512,7 +527,7 @@ $(document).ready(function() {
     $(document).on('click', '#editar_referenciador_form', function(){
         var id = $(this).data('id');
          // get all inputs of the form
-         var inputs = $('.form-horizontal').find(':input');
+         var inputs = $('.form-horizontal:not(.ignore)').find(':input');
          // add in form data
          var form_data = new FormData();
          for(var i=0; i<inputs.length; i++){
@@ -540,7 +555,7 @@ $(document).ready(function() {
     $(document).on('click', '#editar_informante_form', function(){
         var id = $(this).data('id');
          // get all inputs of the form
-         var inputs = $('.form-horizontal').find(':input');
+         var inputs = $('.form-horizontal:not(.ignore)').find(':input');
          // add in form data
          var form_data = new FormData();
          for(var i=0; i<inputs.length; i++){
