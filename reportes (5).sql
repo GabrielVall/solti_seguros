@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-06-2022 a las 20:04:27
+-- Tiempo de generación: 11-07-2022 a las 01:04:59
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -110,6 +110,12 @@ DELETE FROM usuarios WHERE usuarios.id_usuario = @id_usuario;
 DELETE FROM info_contacto WHERE info_contacto.id_info_contacto = @id_info_contacto;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_delete_reporte`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_reporte` (IN `_ID` INT)  BEGIN
+UPDATE reportes SET reportes.visible = 0 
+WHERE reportes.id_reporte = _ID;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_delete_tipo_medico`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_tipo_medico` (IN `_ID` INT)  BEGIN
 DELETE FROM tipos_medicos
@@ -185,7 +191,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_editar_cliente` (IN `_NOMBRE` VA
 SET @id_usuario = ( SELECT clientes.id_usuario FROM clientes
 WHERE clientes.id_cliente = _ID);
 
-UPDATE usuarios SET usuarios.usuario = _USUARIO 
+UPDATE usuarios SET usuarios.usuario = _CORREO 
 WHERE usuarios.id_usuario = @id_usuario;
 
 UPDATE info_contacto SET 
@@ -279,7 +285,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_editar_referenciador` (IN `_NOMB
 SET @id_usuario = ( SELECT referenciadores.id_usuario FROM referenciadores
 WHERE referenciadores.id_referenciador = _ID);
 
-UPDATE usuarios SET usuarios.usuario = _USUARIO 
+UPDATE usuarios SET usuarios.usuario = _CORREO 
 WHERE usuarios.id_usuario = _ID;
 
 UPDATE info_contacto SET 
@@ -363,7 +369,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_cliente` (IN `_NOMBRE` 
 SET @ID = _ID;
 
 INSERT INTO usuarios(usuario,usuarios.password,id_estado_usuario)
-VALUES(_USUARIO,_PASS,1);
+VALUES(_CORREO,_PASS,1);
 
 SET @ID = @@IDENTITY;
 
@@ -449,7 +455,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_referenciador` (IN `_NO
 SET @ID = _ID;
 
 INSERT INTO usuarios(usuario,usuarios.password,id_estado_usuario)
-VALUES(_USUARIO,_PASS,1);
+VALUES(_CORREO,_PASS,1);
 
 SET @ID = @@IDENTITY;
 
@@ -461,6 +467,44 @@ _DIR,_ID_CIUDAD,_FAX);
 INSERT INTO referenciadores(referenciadores.id_usuario,referenciadores.codigo)
 VALUES(@ID,_CODIGO);
 SET _ID = @ID;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insertar_reporte`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_reporte` (IN `_ID_CLIENTE` INT, IN `_FECHA` DATE, IN `_HORA` TIME, IN `_CIUDAD` INT, IN `_COMENTARIOS` VARCHAR(500), IN `_REF` VARCHAR(500), IN `_TIPO` VARCHAR(500), IN `_ESTADO` VARCHAR(500), IN `_ID_ABOGADO` INT, IN `_ID_ASISTENTE` INT, IN `_POLIZA` VARCHAR(500), IN `_ID_ASEGURADORA` INT, IN `_REPORTE` VARCHAR(500), IN `_RECLAMO` VARCHAR(500))  BEGIN
+INSERT INTO reportes(
+    reportes.fecha_reporte,
+    reportes.fecha_accidente,
+    reportes.id_cliente,
+    reportes.id_ciudad,
+    reportes.hora_accidente,
+    reportes.comentarios,
+    reportes.referenciado,
+    reportes.tipo,
+    reportes.status,
+    reportes.id_abogado,
+    reportes.id_asistente,
+    reportes.numero_poliza,
+    reportes.id_aseguradora,
+    reportes.reporte_policia,
+    reportes.numero_reclamo
+)
+VALUES(
+    NOW(),
+    _FECHA,
+    _ID_CLIENTE,
+    _CIUDAD,
+    _HORA,
+    _COMENTARIOS,
+    _REF,
+    _TIPO,
+    _ESTADO,
+    _ID_ABOGADO,
+    _ID_ASISTENTE,
+    _POLIZA,
+    _ID_ASEGURADORA,
+    _REPORTE,
+    _RECLAMO
+);
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_abogado`$$
@@ -507,7 +551,7 @@ SELECT info_contacto.id_info_contacto,info_contacto.nombre,
 info_contacto.apellido_paterno,info_contacto.apellido_materno,
 info_contacto.telefono,info_contacto.mail,
 info_contacto.direccion,info_contacto.id_ciudad,
-info_contacto.fax,aseguradoras.id_aseguradora
+info_contacto.fax,aseguradoras.id_aseguradora,aseguradoras.nombre_aseguradora
 FROM info_contacto
 INNER JOIN usuarios ON usuarios.id_usuario = info_contacto.id_usuario
 INNER JOIN aseguradoras ON aseguradoras.id_usuario = usuarios.id_usuario;
@@ -680,15 +724,103 @@ INNER JOIN usuarios ON usuarios.id_usuario = info_contacto.id_usuario
 INNER JOIN referenciadores ON referenciadores.id_usuario = usuarios.id_usuario;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_reporte`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_reporte` (IN `_ID` INT)  BEGIN
+SELECT
+reportes.id_reporte,
+reportes.fecha_reporte,
+reportes.fecha_accidente,
+FN_NOMBRE_CLIENTE(reportes.id_cliente),
+reportes.id_ciudad,
+reportes.hora_accidente,
+reportes.estado,
+reportes.comentarios,
+reportes.referenciado,
+reportes.tipo,
+reportes.status,
+reportes.id_abogado,
+reportes.id_asistente,
+reportes.numero_poliza,
+reportes.id_aseguradora,
+reportes.reporte_policia,
+reportes.numero_reclamo,
+FN_NOMBRE_ABOGADO(reportes.id_abogado) as 'nombre_abogado',
+FN_NOMBRE_ASISTENTE(reportes.id_asistente) as 'nombre_asistente',
+FN_NOMBRE_ASEGURADORA(reportes.id_aseguradora) as 'nombre_aseguradora',
+reportes.id_cliente
+FROM reportes
+WHERE reportes.id_reporte = _ID;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_reportes`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_reportes` ()  BEGIN
-SELECT * FROM reportes;
+SELECT
+reportes.id_reporte,
+reportes.fecha_reporte,
+reportes.fecha_accidente,
+FN_NOMBRE_CLIENTE(reportes.id_cliente),
+reportes.id_ciudad,
+reportes.hora_accidente,
+reportes.estado,
+reportes.comentarios,
+reportes.referenciado,
+reportes.tipo,
+reportes.status,
+FN_NOMBRE_ABOGADO(reportes.id_abogado),
+FN_NOMBRE_ASISTENTE(reportes.id_asistente),
+reportes.numero_poliza,
+FN_NOMBRE_ASEGURADORA(reportes.id_aseguradora),
+reportes.reporte_policia,
+reportes.numero_reclamo
+FROM reportes
+WHERE reportes.visible = 1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_tipos_medicos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_tipos_medicos` ()  BEGIN
 SELECT id_tipo_medico,nombre_tipo_medico
 FROM tipos_medicos;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_usuario_login`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_usuario_login` (IN `_USUARIO` VARCHAR(500))  BEGIN
+SELECT 
+usuarios.id_usuario,usuarios.usuario,usuarios.password,usuarios.id_estado_usuario
+FROM usuarios 
+WHERE usuarios.usuario = _USUARIO;
+END$$
+
+--
+-- Funciones
+--
+DROP FUNCTION IF EXISTS `FN_NOMBRE_ABOGADO`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_NOMBRE_ABOGADO` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 BEGIN
+SET @NOMBRE = (SELECT info_contacto.nombre FROM abogados
+INNER JOIN info_contacto ON info_contacto.id_usuario = abogados.id_usuario
+WHERE abogados.id_abogado = _ID);
+RETURN @NOMBRE;
+END$$
+
+DROP FUNCTION IF EXISTS `FN_NOMBRE_ASEGURADORA`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_NOMBRE_ASEGURADORA` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 BEGIN
+SET @NOMBRE = (SELECT aseguradoras.nombre_aseguradora FROM aseguradoras WHERE aseguradoras.id_aseguradora = _ID);
+RETURN @NOMBRE;
+END$$
+
+DROP FUNCTION IF EXISTS `FN_NOMBRE_ASISTENTE`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_NOMBRE_ASISTENTE` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 BEGIN
+SET @NOMBRE = (SELECT info_contacto.nombre FROM asistentes
+INNER JOIN info_contacto ON info_contacto.id_usuario = asistentes.id_usuario
+WHERE asistentes.id_asistente = _ID);
+RETURN @NOMBRE;
+END$$
+
+DROP FUNCTION IF EXISTS `FN_NOMBRE_CLIENTE`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_NOMBRE_CLIENTE` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 BEGIN
+SET @NOMBRE = (SELECT info_contacto.nombre FROM clientes
+INNER JOIN info_contacto ON info_contacto.id_usuario = clientes.id_usuario
+WHERE clientes.id_cliente = _ID);
+RETURN @NOMBRE;
 END$$
 
 DELIMITER ;
@@ -704,14 +836,14 @@ CREATE TABLE IF NOT EXISTS `abogados` (
   `id_abogado` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) NOT NULL,
   PRIMARY KEY (`id_abogado`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `abogados`
 --
 
 INSERT INTO `abogados` (`id_abogado`, `id_usuario`) VALUES
-(14, 38);
+(1, 5);
 
 -- --------------------------------------------------------
 
@@ -738,15 +870,14 @@ CREATE TABLE IF NOT EXISTS `aseguradoras` (
   `id_usuario` int(11) NOT NULL,
   `nombre_aseguradora` varchar(500) NOT NULL,
   PRIMARY KEY (`id_aseguradora`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `aseguradoras`
 --
 
 INSERT INTO `aseguradoras` (`id_aseguradora`, `id_usuario`, `nombre_aseguradora`) VALUES
-(2, 42, 'Aseguradora 1'),
-(3, 44, 'asd');
+(1, 7, 'aseg');
 
 -- --------------------------------------------------------
 
@@ -759,15 +890,14 @@ CREATE TABLE IF NOT EXISTS `asistentes` (
   `id_asistente` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) NOT NULL,
   PRIMARY KEY (`id_asistente`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `asistentes`
 --
 
 INSERT INTO `asistentes` (`id_asistente`, `id_usuario`) VALUES
-(9, 39),
-(10, 40);
+(1, 6);
 
 -- --------------------------------------------------------
 
@@ -787,7 +917,29 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 --
 
 INSERT INTO `clientes` (`id_cliente`, `id_usuario`) VALUES
-(1, 62);
+(1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estados_reporte`
+--
+
+DROP TABLE IF EXISTS `estados_reporte`;
+CREATE TABLE IF NOT EXISTS `estados_reporte` (
+  `id_estado` int(11) NOT NULL AUTO_INCREMENT,
+  `info` varchar(500) NOT NULL,
+  PRIMARY KEY (`id_estado`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `estados_reporte`
+--
+
+INSERT INTO `estados_reporte` (`id_estado`, `info`) VALUES
+(1, 'En proceso'),
+(2, 'Enviado a pase medico'),
+(3, 'Terminado');
 
 -- --------------------------------------------------------
 
@@ -802,14 +954,14 @@ CREATE TABLE IF NOT EXISTS `informantes` (
   `codigo` varchar(500) NOT NULL,
   `porcentaje_ganancia` varchar(50) NOT NULL,
   PRIMARY KEY (`id_informante`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `informantes`
 --
 
 INSERT INTO `informantes` (`id_informante`, `id_usuario`, `codigo`, `porcentaje_ganancia`) VALUES
-(2, 64, '123', '15');
+(1, 4, '123', '10');
 
 -- --------------------------------------------------------
 
@@ -830,29 +982,21 @@ CREATE TABLE IF NOT EXISTS `info_contacto` (
   `id_ciudad` int(11) NOT NULL,
   `fax` varchar(500) NOT NULL,
   PRIMARY KEY (`id_info_contacto`)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `info_contacto`
 --
 
 INSERT INTO `info_contacto` (`id_info_contacto`, `id_usuario`, `nombre`, `apellido_paterno`, `apellido_materno`, `telefono`, `mail`, `direccion`, `id_ciudad`, `fax`) VALUES
-(46, 46, 'test2', 'kjh', 'kj', '123', 'ads', 'asd', 1, '2314'),
-(48, 48, 'ref delete', 'fgd', 'gf', 'dgf', 'dfg', 'd', 1, '213'),
-(38, 38, 'Abogado 1 Edit2', 'Abogado Apellido Paterno', 'Abogado Apellido Materno', '8781231233', 'abogado1@correo.com', 'abogado 1 direccion', 1, '123 123 132'),
-(9, 9, 'asd22', 'asd', 'asd', '123', 'ad', 'asd', 1, '2132'),
-(12, 12, 'asd33', 'asd', 'asad', 'das', 'das', 'asd', 1, 'asd'),
-(39, 39, 'Asistente12', 'Asistente1 Apellido P', 'Asistente1 Apellido M', '87123123', 'asistente1@correo.com', 'asd', 1, 'asd'),
-(40, 40, 'test', 'jgf', 'jhg', 'jhg', 'jhg', 'jhg', 1, '586'),
-(42, 42, 'N aseg 1', 'a p aseg 1', 'a m aseg 1', '878', 'aseg1@aseg.com', 'asd', 1, '132213'),
-(43, 43, 'Cliente2', 'asd', 'ad', '123', 'asd', 'ads', 1, '123'),
-(44, 44, 'asd', 'asd', 'asd', '213', 'asd', 'ads', 1, '123'),
-(47, 47, 'ref12', 'asd', 'jhg', 'jhg', 'hjg', 'jhg', 1, '213'),
-(26, 26, 'asd', 'asd', 'asd', '213', 'asd', 'asd', 1, '213'),
-(62, 62, 'Gabriel', 'Vallejo', 'San Miguel', '8781383809', 'gabrielvallejo2000@gmail.com', 'Francisco coss 1187 Real del Norte', 350, '123456789'),
-(64, 64, 'asd', 'das', 'asd', '123', 'asd', '123', 3, '123'),
-(60, 60, 'asd', 'asd', 'asd', '123', 'asd', 'asd', 1, '1234'),
-(55, 55, 'ref2w2', 'sasd', 'das', '213', 'ads', 'ads', 1, '231');
+(1, 2, 'Gabriel', 'Vallejo', 'San Miguel', '8781383809', 'gabrielvallejo2000@gmail.com', 'Sin Valor', 1, 'Sin Valor'),
+(2, 3, 'Invest', 'ap', 'apm', '12312', 'asd', 'Sin Valor', 1, 'Sin Valor'),
+(3, 4, 'info', '123', '123', '1', 'Sin Valor', 'Sin Valor', 2, 'Sin Valor'),
+(4, 5, 'asd', 'da', 'das', '123', 'asd', 'asd', 2, '123'),
+(5, 6, 'asd', 'asd', 'asd', '123', 'asd', 'Sin Valor', 1, '123'),
+(6, 7, 'Sin Valor', 'Sin Valor', 'Sin Valor', '123', 'Sin Valor', 'Sin Valor', 0, 'Sin Valor'),
+(7, 8, 'Sin Valor', 'Sin Valor', 'Sin Valor', '123', 'asd', '123', 1, 'Sin Valor'),
+(8, 9, 'test', 'asd', 'ads', '123', 'asd', 'asd', 1, '123');
 
 -- --------------------------------------------------------
 
@@ -867,14 +1011,14 @@ CREATE TABLE IF NOT EXISTS `medicos` (
   `id_usuario` int(11) NOT NULL,
   `id_tipo_medico` int(11) NOT NULL,
   PRIMARY KEY (`id_medico`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `medicos`
 --
 
 INSERT INTO `medicos` (`id_medico`, `id_proveedor`, `id_usuario`, `id_tipo_medico`) VALUES
-(2, 1, 60, 2);
+(1, 1, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -888,14 +1032,14 @@ CREATE TABLE IF NOT EXISTS `proveedores_medicos` (
   `id_usuario` int(11) NOT NULL,
   `nombre_proveedor` varchar(500) NOT NULL,
   PRIMARY KEY (`id_proveedor`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `proveedores_medicos`
 --
 
 INSERT INTO `proveedores_medicos` (`id_proveedor`, `id_usuario`, `nombre_proveedor`) VALUES
-(1, 46, 'proveedor nombre');
+(1, 8, 'asd');
 
 -- --------------------------------------------------------
 
@@ -909,14 +1053,14 @@ CREATE TABLE IF NOT EXISTS `referenciadores` (
   `id_usuario` int(11) NOT NULL,
   `codigo` varchar(5) NOT NULL,
   PRIMARY KEY (`id_referenciador`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `referenciadores`
 --
 
 INSERT INTO `referenciadores` (`id_referenciador`, `id_usuario`, `codigo`) VALUES
-(4, 47, '2407');
+(1, 3, '123');
 
 -- --------------------------------------------------------
 
@@ -942,30 +1086,35 @@ DROP TABLE IF EXISTS `reportes`;
 CREATE TABLE IF NOT EXISTS `reportes` (
   `id_reporte` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_reporte` datetime NOT NULL,
-  `fecha_accidente` datetime NOT NULL,
+  `fecha_accidente` date NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `id_ciudad` int(11) NOT NULL,
   `hora_accidente` time NOT NULL,
-  `estado` int(11) NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '0',
   `comentarios` varchar(500) NOT NULL,
-  `referenciado` int(11) NOT NULL,
-  `tipo` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
+  `referenciado` varchar(500) NOT NULL,
+  `tipo` varchar(500) NOT NULL,
+  `status` varchar(500) NOT NULL,
   `id_abogado` int(11) NOT NULL,
   `id_asistente` int(11) NOT NULL,
   `numero_poliza` varchar(500) NOT NULL,
   `id_aseguradora` int(11) NOT NULL,
   `reporte_policia` varchar(500) NOT NULL,
   `numero_reclamo` varchar(500) NOT NULL,
+  `visible` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_reporte`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `reportes`
 --
 
-INSERT INTO `reportes` (`id_reporte`, `fecha_reporte`, `fecha_accidente`, `id_cliente`, `id_ciudad`, `hora_accidente`, `estado`, `comentarios`, `referenciado`, `tipo`, `status`, `id_abogado`, `id_asistente`, `numero_poliza`, `id_aseguradora`, `reporte_policia`, `numero_reclamo`) VALUES
-(1, '2022-06-07 03:30:28', '2022-06-07 03:30:28', 1, 1, '16:30:28', 1, 'Sin comentarios', 1, 1, 1, 1, 1, '123123231123', 1, '1231231231', '21231123312');
+INSERT INTO `reportes` (`id_reporte`, `fecha_reporte`, `fecha_accidente`, `id_cliente`, `id_ciudad`, `hora_accidente`, `estado`, `comentarios`, `referenciado`, `tipo`, `status`, `id_abogado`, `id_asistente`, `numero_poliza`, `id_aseguradora`, `reporte_policia`, `numero_reclamo`, `visible`) VALUES
+(1, '2022-07-10 19:35:04', '2022-07-11', 1, 1, '00:34:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 4, 5, 'asd', 6, '123', '213', 0),
+(2, '2022-07-10 19:40:54', '2022-07-11', 1, 1, '00:40:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 4, 5, '123', 1, '123', '123', 0),
+(3, '2022-07-10 19:53:36', '2022-07-11', 1, 1, '00:53:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 1, 1, '123', 1, '213', '123', 0),
+(4, '2022-07-10 19:54:12', '2022-07-11', 1, 1, '00:54:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 0),
+(5, '2022-07-10 20:04:15', '2022-07-11', 1, 1, '01:04:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1);
 
 -- --------------------------------------------------------
 
@@ -1047,29 +1196,22 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `password` varchar(500) NOT NULL,
   `id_estado_usuario` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_usuario`)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `usuario`, `password`, `id_estado_usuario`) VALUES
-(64, 'a_das4616', '$2y$10$a77PTSCNivMGiDxqgW3zzO8821OUk1HlnLIrgLVo37hPMN56gmK1q', 1),
-(9, 'asd', '$2y$10$GHYo8VzdpKGAqibm0LlpBuCXhtqTaVguXJCHTz3X7343uDp8cQnbK', 1),
-(62, 'va_gabriel4616', '$2y$10$VftIMUO./o80LJ8.SkmWZuow6CSguhMr7TmMpKpWlEAHyjabVBIYa', 1),
-(60, 'sad', '$2y$10$akeyCPqqaniZVVevAKyh3u6v2fUGr0GobU6DwHjiVEi42KOb0mvYK', 1),
-(12, 'asd', '$2y$10$MBLMd22EmWVlrjLk/b3qEOGgb.r0eiqUVmNFjW82OmGUx96ACGHgK', 1),
-(38, 'abogado1', '$2y$10$Lt.QEjS.Zf5sGs0x5WkbDOBQok0cy2uCXVWqZMCvQYoUyvz2wrtMW', 1),
-(39, 'sad', '$2y$10$MmkQcXgR.knFKEQZf6IxW.jdH2e/Ogq.U/ae.HqLI01rkkFLp9Vza', 1),
-(40, 'ghj', '$2y$10$WUYZeZwHlvs7o3zrmYU8OeRkW2sIT8QjeBZDgJm2qSigdLjZ68Sw2', 1),
-(42, 'aseg', '$2y$10$/JdWmtT0nD0VzSJSIt4tF.NvqZ9W25nasaPPKBRlFmec4OrLNx0Eq', 1),
-(43, 'asd', '$2y$10$AwTdF4X0HxjG1vJF56wysus1w2/dGcTYPN3hZ65UF2XQ31FgxIQla', 1),
-(44, 'asd', '$2y$10$w4l7TlL786dr6hkMLWN2.e9yE5iScaceFIVZqt223H5lIyosDauvG', 1),
-(47, 'sad', '$2y$10$H3oU3H.WGPB2VCnGWbss1Oj03qQls2anoDCWjyyq7nBugJpjxsFnm', 1),
-(46, 'das', '$2y$10$VOsNNeXSp1.UekpuKJjh5O9J7STtiqmOGTeirICqblKtEXi34dHAu', 1),
-(48, 'asd', '$2y$10$Q6fpWENvfqzM1Bm7.qN72.jBRcrqzdxZiTf5/iRsvGjsE1buu9n4q', 1),
-(55, '32', '$2y$10$bBH4z3MZZmV3lAZpd0cZC.ZQU3RSJRMvUOTDHcoL4T.O7kcibBxVu', 1),
-(26, 'asd', '$2y$10$i03oP2PRvos3Es7lA44mquMhdXFYMZgOciHMHP1ZXqrW0KTn9GwkK', 1);
+(1, 'ADMIN', '$2y$10$SIVolPK0pN78NLtuHP1UiOstMJhjQhNB7Fw0DNA/ocuti7kLo9Vl6', 1),
+(2, 'gabrielvallejo2000@gmail.com', '$2y$10$iVY8m2oRC91/teEdHUndMOZsDLmAxSdubgVV9Mw1sCWTjK/lc154y', 1),
+(3, 'asd', '$2y$10$CszPFK7odk71SYsFcS3BBuouEKa3LmCAWiP5Dog7B5ixiGYMUkaoW', 1),
+(4, 'i_1230116', '$2y$10$nGm3GXNlwqi7Kb5RaGlOWeBUOofHn/OcKVlh60JjCMTKXjy0QRd32', 1),
+(5, 'a_da4816123', '$2y$10$V1cgUUsNtUphg0GDQMWpV.jXASJvSgM5VrxmFB1g6FN3Z59jTnx3u', 1),
+(6, 'a_asd3716', '$2y$10$kxm03vI7r742.nO/g/fwQulei8/dnqcAgE32VE2FyDlJy0jo.osXq', 1),
+(7, 'Sin Valor', '$2y$10$juKmrK3uBpTeKLEYCLlhluXkWBKoJQOb2.kRoe.ozW3KjrYRnmJQK', 1),
+(8, 'Sin Valor', '$2y$10$te1LI8pIg/UJ/cI4FTUueOtmYVgmliWD8m3owJrB73ZUOVEmkd6pW', 1),
+(9, 't_asd5816asd', '$2y$10$XVERvtsIp99FVkcjwX.9nOCihZFRzJrprz9E7GqXA6EJ0tE4ACowG', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
