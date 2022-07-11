@@ -20,7 +20,7 @@ $total_aseguradoras = count($aseguradoras);
             <select class="form-control" id="cliente">
                 <?php 
                     foreach($clientes as $cliente){
-                        echo '<option value="'.$cliente[0].'">'.$cliente[1].'</option>';
+                        echo '<option value="'.$cliente['id_cliente'].'">'.$cliente['nombre'].' '.$cliente['apellido_paterno'].' '.$cliente['apellido_materno'].''. '</option>';
                     }
                 ?>
             </select>
@@ -68,7 +68,7 @@ $total_aseguradoras = count($aseguradoras);
             <select class="form-control" id="abogado">
                 <?php 
                 foreach($abogados as $abogado){
-                    echo '<option value="'.$abogado[0].'">'.$abogado[1].'</option>';
+                    echo '<option value="'.$abogado['id_abogado'].'">'.$abogado['nombre'].' '.$abogado['apellido_paterno'].' '.$abogado['apellido_materno'].''. '</option>';
                 }
                 ?>
             </select>
@@ -78,7 +78,7 @@ $total_aseguradoras = count($aseguradoras);
             <select class="form-control" id="asistente">
                 <?php 
                 foreach($asistentes as $asistente){
-                    echo '<option value="'.$asistente[0].'">'.$asistente[1].'</option>';
+                    echo '<option value="'.$asistente['id_asistente'].'">'.$asistente['nombre'].' '.$asistente['apellido_paterno'].' '.$asistente['apellido_materno'].''. '</option>';
                 }
                 ?>
             </select>
@@ -92,7 +92,7 @@ $total_aseguradoras = count($aseguradoras);
             <select class="form-control" id="aseguradora">
                 <?php 
                 foreach($aseguradoras as $aseguradora){
-                    echo '<option value="'.$aseguradora[0].'">'.$aseguradora[1].'</option>';
+                    echo '<option value="'.$aseguradora['id_aseguradora'].'">'.$aseguradora['nombre_aseguradora'].'</option>';
                 }
                 ?>
             </select>

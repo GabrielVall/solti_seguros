@@ -62,7 +62,7 @@ if(!isset($_SESSION['id_usuario'])){
 				
 			</div>
 		</div>
-		<div class="modal fade" id="modaldemo3" style="display: none;" aria-hidden="true">
+		<div class="modal fade" id="modaldemo3" data-bs-backdrop="static" data-bs-keyboard="false" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content modal-content-demo">
 					<div class="modal-header">

@@ -62,23 +62,23 @@ function estado_name($id){
                     <table class="table table-bordered table-striped mg-b-0 text-md-nowrap">
                         <thead>
                             <tr>
+                                <th>Reporte policial</th>
+                                <th>Aseguradora</th>
+                                <th>Numero poliza</th>
+                                <th>Numero reclamo</th>
                                 <th>Id reporte</th>
                                 <th>Fecha reporte</th>
                                 <th>Fecha accidente</th>
                                 <th>Cliente</th>
                                 <th>Ciudad</th>
-                                <th>Hora accidente</th>
                                 <th>Estado</th>
+                                <th>Hora accidente</th>
                                 <th>Comentarios</th>
-                                <th>Referenciado</th>
                                 <th>Tipo</th>
                                 <th>Status</th>
                                 <th>Abogado</th>
                                 <th>Asistente</th>
-                                <th>Numero poliza</th>
-                                <th>Aseguradora</th>
-                                <th>Reporte policial</th>
-                                <th>Numero reclamo</th>
+                                <th>Referenciado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -86,29 +86,29 @@ function estado_name($id){
                             <?php 
                             foreach($resultado as $reporte){ ?>
                             <tr>
+                                <?php echo '<td>'.$reporte[15].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[14].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[13].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[16].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[0].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[1].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[2].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[3].'</td>'; ?>
                                 <?php echo '<td>'.ciudad_name($reporte[4]).'</td>'; ?>
-                                <?php echo '<td>'.$reporte[5].'</td>'; ?>
                                 <?php echo '<td>'.estado_name($reporte[4]).'</td>'; ?>
+                                <?php echo '<td>'.$reporte[5].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[7].'</td>'; ?>
-                                <?php echo '<td>'.$reporte[8].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[9].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[10].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[11].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[12].'</td>'; ?>
-                                <?php echo '<td>'.$reporte[13].'</td>'; ?>
-                                <?php echo '<td>'.$reporte[14].'</td>'; ?>
-                                <?php echo '<td>'.$reporte[15].'</td>'; ?>
-                                <?php echo '<td>'.$reporte[16].'</td>'; ?>
+                                <?php echo '<td>'.$reporte[8].'</td>'; ?>
                                 <td>
                                     <div class="btn-group">
                                         <a  href="#reportes?modal=ver_reporte[id=<?php echo $reporte[0]; ?>]" class="btn btn-primary btn-sm">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="javascript:void(0);" class="btn btn-danger btn-sm">
+                                        <a href="javascript:void(0);" id="eliminar_reporte" data-id="<?php echo $reporte[0]; ?>" class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </div>

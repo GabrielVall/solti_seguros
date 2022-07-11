@@ -62,6 +62,28 @@ $(document).ready(function() {
             });
         }
     }
+    $(document).on('click', '#eliminar_reporte', function(e) {
+        var id = $(this).data('id');
+        alertify.confirm('Alerta', '¿Estas seguro de realizar esta acción?, ¡esto no podra deshacerse!.', function(){
+            $.ajax({
+                type: 'POST',
+                url: '../php/c/0/eliminar_reporte.php',
+                data: {id: id},
+                success: function(data) {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.success('Registro eliminado');
+                    if(window.location.hash = 'reportes[]'){
+                    window.location.hash = 'reportes';
+                    }else{
+                        window.location.hash = 'reportes[]';
+                    }
+                }
+            });
+        }, function(){
+            alertify.error('Acción cancelada');
+        });
+        
+    });
     function cargar_fechas(){
         flatpickr("[type='date']", {
             locale: {
