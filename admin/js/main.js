@@ -89,6 +89,60 @@ $(document).ready(function() {
         });
         
     });
+    var uploaded_files = [];
+    $(document).on('change','[type="file"]',function(e){
+        var formData = new FormData();
+        // append each file to the formdata object
+        var files = e.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            formData.append('file_'+i, file, file.name);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '../php/c/0/temporal_files.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function() {
+                $(e.target).parent().append(`<div id="spin_reporte" class="row mt-4 justify-content-center d-flex"><div class="spinner-border text-success" role="status"><span class="sr-only">Cargando imagene(s)...</span></div></div>`);
+                $(e.target).prop('disabled', true);
+            },
+            success: function(data) {
+                data = JSON.parse(data);
+                if(data.status == 'success'){
+                    uploaded_files = data.files;
+                }
+                $(e.target).prop('disabled', false);
+                $('#spin_reporte').remove();
+                mostrar_archivos();
+            }
+        });
+    });
+    function mostrar_archivos(){
+        var div = '<div class="row ">';
+        for(var i = 0; i < 2; i++){
+            div += `
+            <div class="col-12">
+                <div class="card" style="background-color:#3b3b3b !important;">
+                    <a href="javascript:void(0)">
+                        <div class="card-body ">
+                            <div class="tx-16 mb-1">
+                                <svg class="file-manager-icon me-2" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path fill="#fbb8c7" d="M18.12158,11.88672c-1.18039-1.14226-3.05327-1.14485-4.23681-0.00586l-1.58985,1.58008c-0.39155,0.38922-0.39343,1.02216-0.00421,1.41371c0.00043,0.00043,0.00085,0.00086,0.00128,0.00129l4.67481,4.68457L17.14148,20H19c1.65611-0.00181,2.99819-1.34389,3-3v-0.83008c-0.00009-0.26567-0.10585-0.52039-0.29395-0.708L18.12158,11.88672z"></path><path fill="#f74f75" d="M5,20h14c0.355-0.00278,0.70662-0.06923,1.03815-0.19617l-9.91657-9.91711C8.94094,8.74376,7.06706,8.74161,5.88379,9.88184L2.294,13.46191c-0.18812,0.1876-0.2939,0.44232-0.294,0.708V17C2.00181,18.65611,3.34389,19.99819,5,20z"></path><path fill="#fa95ac" d="M19,4H5C3.34387,4.00183,2.00183,5.34387,2,7v7.16992c0.00012-0.26569,0.1059-0.52039,0.29401-0.70801l3.58978-3.58008c1.18329-1.14026,3.05713-1.13806,4.23779,0.00488l2.87585,2.87604l0.88733-0.8819c1.18353-1.13898,3.05646-1.13641,4.23682,0.00586l3.58447,3.5752c0.18811,0.18762,0.29388,0.44232,0.29395,0.70801V7C21.99817,5.34387,20.65613,4.00183,19,4z"></path></svg>
+                                Image
+                                <div class="float-end tx-13 text-muted mt-1">
+                                14.2 mb
+                                <a id="borrar_archivo" href="javascript:void(0);"><i class="fe fe-trash me-2"></i> Borrar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>`;
+        }
+        div += '</div>';
+        $('#archivos').parent().parent().append(div);
+    }
     function cargar_fechas(){
         flatpickr("[type='date']", {
             locale: {

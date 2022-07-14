@@ -39,7 +39,7 @@ else if($_SESSION['hash'] == 'asistentes' ){
     <div class="card-body pt-0">
         <div class="form-horizontal" >
             <div class="form-group">
-            <label for="nombre">Nombre del cliente</label>
+            <label for="nombre">Nombre</label>
                 <input type="text" class="form-control" id="nombre" placeholder="Nombre">
             </div>
             <div class="form-group">

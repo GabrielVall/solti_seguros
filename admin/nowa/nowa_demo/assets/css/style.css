@@ -90844,3 +90844,7 @@ a.text-dark:focus {
 .form-horizontal .select2{
     width: 100% !important;
 }
+#borrar_archivo:hover{
+    cursor: pointer;
+    color: #ff6262;
+}

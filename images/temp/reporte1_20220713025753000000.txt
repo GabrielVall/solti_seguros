@@ -1,0 +1,61 @@
+-catalogo cliente
+-quitar 
+-fax
+-quitar usuario para usar correo como usuario
+
+-investigadores
+-quitar 
+-fax
+-usuario mismo caso
+-direccion
+
+-informantes
+-quitar correo
+-direccion
+-fax
+no necesitan acceso al sistema )esta por confirmarse
+
+-abogado
+-todo
+
+-asistente
+-quitar direccion
+
+-aseguradora
+-nombre y telefono
+-qutar todo lo demas
+y el nombre del ajustador de esa aseguradora
+debe ir agregado en el reporte
+
+
+-proveedor medico
+-solo dejar nombre de la clinica
+-direccion
+-telefono
+-ciudad
+-correo
+-no necesita usuario ni lo demas
+
+-medicos
+-se queda todo
+
+
+orden de las columnas de reporte
+mover estado junto a la ubicacion (es estado de ciudad)
+referenciado mover al final de las columnas, despues de assitente
+primero 
+reporte depolicia , luego
+aseguradora y luego 
+numero de poliza y 
+luego numero de reclamo
+agregar un status al reporte que se pueda seleccionar, tramite de aceptacion, aceptado,en proceso , denegado
+cerrado
+
+
+datos del pase medico
+fecha en que se genera
+fecha de la cita
+el nombre del cliente
+telefono
+con que medico y clinica
+al medico que lo envias 

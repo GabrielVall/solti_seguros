@@ -105,6 +105,11 @@ $total_aseguradoras = count($aseguradoras);
             <label>Número de reclamo</label>
             <input class="form-control" type="text" id="reclamo" />
         </div>
+        <div class="form-group">
+            <label>Subir archivos</label>
+            <input class="form-control" type="file" id="archivos" 
+            multiple="multiple" />
+        </div>
     </div>
 </div>
 <div class="modal-footer">
