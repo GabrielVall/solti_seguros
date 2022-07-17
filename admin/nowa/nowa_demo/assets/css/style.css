@@ -90848,3 +90848,10 @@ a.text-dark:focus {
     cursor: pointer;
     color: #ff6262;
 }
+.files_up{
+    width: 100px;
+}
+.alertify{
+    z-index:999999 !important;
+    margin-top: -50px;
+}

@@ -1,10 +1,12 @@
 <?php 
 // foreach $_FILES
 $num = 0;
-$file_names = array();
+$files = array();
 foreach($_FILES as $image){
     $num++;
-    $nombre_archivo = 'reporte'.$num.'_'.date('YmdHisu');
+    $nombre_archivo = 'tmp_name='.date('YmdHisu').'&name='.$image['name'];
+    $og_name = $image['name'];
+    // nombre original
     // print year month day hour minute second and microseconds
     $location = '../../../images/temp/';
     if (!file_exists($location)) {
@@ -15,11 +17,17 @@ foreach($_FILES as $image){
     $extension = pathinfo($path, PATHINFO_EXTENSION);
     $extension = strtolower($extension);
     // ubicacion + nombre
-    $file_location = $location.$nombre_archivo.'.'.$extension;
+    $file_location = $location.$nombre_archivo;
     if(move_uploaded_file($image['tmp_name'],$file_location)){
-        $file_names[] = $nombre_archivo.'.'.$extension;
+        $data  = array(
+            'name' => $nombre_archivo,
+            'location' => $file_location,
+            'size' => $image['size'],
+            'og_name' => $og_name,
+        );
+        $files[] = $data;
     }
 }
-    echo JSON_encode(array('status' => 'success', 'files' => $file_names));
+    echo JSON_encode(array('status' => 'success', 'files' => $files));
 
 
