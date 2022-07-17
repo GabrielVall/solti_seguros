@@ -1,32 +1,34 @@
 <?php 
-function get_directory_size($ruta,$tipo = 0){
+function get_directory_size($dir){
     $size = 0;
-    $files = glob($ruta);
-    foreach($files as $file){
-        $size += filesize($file);
+    
+    foreach (glob(rtrim($dir, '/').'/*', GLOB_NOSORT) as $each) {
+        $size += is_file($each) ? filesize($each) : folderSize($each);
     }
-    if($tipo == 0){
-        return $size;
-    }else{
-        if($size < 1024){
-            return $size.' bytes';
-        }elseif($size < 1048576){
-            return round($size/1024, 2).' KB';
-        }elseif($size < 1073741824){
-            return round($size/1048576, 2).' MB';
-        }else{
-            return round($size/1073741824, 2).' GB';
-        }
-    }
+
+    return $size;
 }
 function percentage_of_files($total_bytes, $bytes_used){
     $percentage = ($bytes_used / $total_bytes) * 100;
+    $percentage = number_format($percentage, 2);
     return $percentage;
 }
 
-$porcentaje = percentage_of_files(1073741824, get_directory_size('../archivos/'));
+function bytes_to_other($bytes){
+    if($bytes < 1024){
+        return $bytes.' bytes';
+    }elseif($bytes < 1048576){
+        return round($bytes/1024, 2).' KB';
+    }elseif($bytes < 1073741824){
+        return round($bytes/1048576, 2).' MB';
+    }else{
+        return round($bytes/1073741824, 2).' GB';
+    }
+}
 
-$files_size = get_directory_size('../../../img/*',1);
+$porcentaje = percentage_of_files(1073741824, get_directory_size('../../../images/*'));
+
+$files_size = bytes_to_other(get_directory_size('../../../images/*'));
 ?>
 <div class="main-container container-fluid">
 
@@ -63,7 +65,7 @@ $files_size = get_directory_size('../../../img/*',1);
                         <div class="progress fileprogress mg-b-10">
                             <div class="progress-bar progress-bar-xs wd-15p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $porcentaje; ?>%;"></div>
                         </div>
-                        <div class="text-muted font-weight-semibold tx-13 mb-1"><?php echo $files_size; ?> Used of 1GB</div>
+                        <div class="text-muted font-weight-semibold tx-13 mb-1"><?php echo $files_size; ?> usados de 1GB</div>
                         <div class="tx-13 text-primary font-weight-semibold">Solicitar espacio</div>
                     </div>
                 </div>
