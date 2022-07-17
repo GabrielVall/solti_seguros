@@ -26,6 +26,7 @@ if(!isset($_SESSION['id_usuario'])){
 		<link href="nowa/nowa_demo/assets/css/animate.css" rel="stylesheet">
 		<link href="nowa/nowa_demo/assets/switcher/css/switcher.css" rel="stylesheet"/>
 		<link href="nowa/nowa_demo/assets/switcher/demo.css" rel="stylesheet"/>
+		<link href="nowa/nowa_demo/assets/css/SumoSelect.css" rel="stylesheet"/>
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
 		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
@@ -126,6 +127,8 @@ if(!isset($_SESSION['id_usuario'])){
 		<!-- INTERNAL Select2 js -->
 		<script src="nowa/nowa_demo/assets/plugins/select2/js/select2.full.min.js"></script>
 		<script src="nowa/nowa_demo/assets/js/select2.js"></script>
+		<script src="nowa/nowa_demo/assets/plugins/select2/js/select2.min.js"></script>
+		<script src="nowa/nowa_demo/assets/plugins/sumoselect/jquery.sumoselect.js"></script>
 		<!-- Sticky js -->
 		<script src="nowa/nowa_demo/assets/js/sticky.js"></script>
 		<!-- Right-sidebar js -->

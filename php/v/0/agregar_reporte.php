@@ -9,6 +9,8 @@ $asistentes = $sql->obtenerResultado('CALL sp_select_asistentes()');
 $total_asistentes = count($asistentes);
 $aseguradoras = $sql->obtenerResultado('CALL sp_select_aseguradoras()');
 $total_aseguradoras = count($aseguradoras);
+$informantes = $sql->obtenerResultado('CALL sp_select_informantes()');
+$total_informantes = count($informantes);
 ?>
 <div class="modal-header">
     <h6 class="modal-title">Agregar un reporte</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
@@ -21,6 +23,16 @@ $total_aseguradoras = count($aseguradoras);
                 <?php 
                     foreach($clientes as $cliente){
                         echo '<option value="'.$cliente['id_cliente'].'">'.$cliente['nombre'].' '.$cliente['apellido_paterno'].' '.$cliente['apellido_materno'].''. '</option>';
+                    }
+                ?>
+            </select>
+        </div>
+        <div>
+            <label>Selecciona un cliente adicionales</label>
+            <select id="clientes_adicionales" multiple="multiple" class="testselect2">
+                <?php 
+                    foreach($clientes as $cliente){
+                        echo '<option class="dis_'.$cliente['id_cliente'].'" '; if ($clientes[0]['id_cliente']==$cliente['id_cliente']){ echo 'selected'; } echo ' value="'.$cliente['id_cliente'].'">'.$cliente['nombre'].' '.$cliente['apellido_paterno'].' '.$cliente['apellido_materno'].''. '</option>';
                     }
                 ?>
             </select>
@@ -47,6 +59,16 @@ $total_aseguradoras = count($aseguradoras);
             <select class="form-control" id="referenciado">
                 <option>Calle</option>
                 <option>Oficina</option>
+            </select>
+        </div>
+        <div class="form-group" id="if_referenciado">
+            <label>Informante</label>
+            <select class="form-control" id="informante">
+                <?php 
+                foreach($informantes as $informante){
+                    echo '<option value="'.$informante['id_informante'].'">'.$informante['nombre'].' '.$informante['apellido_paterno'].' '.$informante['apellido_materno'].''. '</option>';
+                }
+                ?>
             </select>
         </div>
         <div class="form-group">
@@ -115,3 +137,8 @@ $total_aseguradoras = count($aseguradoras);
 <div class="modal-footer">
     <button class="btn ripple btn-primary" type="button" id="agregar_reporte">Continuar</button>
 </div>
+<script>
+    $(document).ready(function () {
+            $('.testselect2').SumoSelect();
+     });
+</script>

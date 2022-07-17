@@ -666,14 +666,38 @@ $(document).ready(function() {
     $(document).on('click', '#agregar_reporte', function(){
         insertar_datos('#form_reporte');
     });
+    $(document).on('click', '#cliente', function(){
+        var id_cliente = $(this).val();
+        $('.dis_'+id_cliente).prop('disabled', 'disabled');
+    });
+    $(document).on('change', '#referenciado', function(){
+        var referenciado = $(this).val();
+        if (referenciado=="Calle") {
+            $("#if_referenciado").slideDown(1000);
+        } else {
+            $("#if_referenciado").slideUp(500);
+        }
+        $('.dis_'+id_cliente).prop('disabled', 'disabled');
+    });
     function insertar_datos(contenedor){
-        var inputs = $(contenedor).find(':input:not(:disabled):not(:submit):not(:reset):not(:button):not(hidden)');;
+        var inputs = $(contenedor).find(':input:not(:disabled):not(:submit):not(:reset):not(:button):not(hidden)');
         var form_data = new FormData();
         for(var i=0; i<inputs.length; i++){
-            if(inputs[i].value == ''){
-                inputs[i].value = ' ';
+            // Si el input no es file
+            if(inputs[i].type != 'file'){
+                //  si es arrt multiple
+                if(inputs[i].multiple){
+                    var id = inputs[i].id;
+                    form_data.append(id, $('#'+id).val());
+                }
+                else{
+                    // if value is array
+                    if(inputs[i].value == ''){
+                        inputs[i].value = ' ';
+                    }
+                    form_data.append(inputs[i].id, inputs[i].value);
+                }
             }
-            form_data.append(inputs[i].id, inputs[i].value);
         }
         $.ajax({
             url: '../php/c/0/insertar_reporte.php',
