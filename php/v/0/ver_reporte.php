@@ -5,13 +5,9 @@ $reporte = $sql->obtenerResultado('CALL sp_select_reporte("'.$_POST['id'].'")');
 $clientes_adicionales = $sql->obtenerResultado('CALL sp_select_clientes_adicionales("'.$_POST['id'].'")');
 $total_clientes_adicionales = COUNT($clientes_adicionales);
 // force num to 8 zeros
-<<<<<<< HEAD
 $año = explode("-",$reporte[0]['fecha_accidente']);
 $_POST['id'] = sprintf("%03d", $_POST['id']);
 $_POST['id'] = $_POST['id'].'-'.$año[0];
-=======
-$folio = sprintf("%08d", $_POST['id']);
->>>>>>> 1b526766421eb2bff0f137741c2353c556adeece
 $total_reporte = count($reporte);
 $cliente = $sql->obtenerResultado('CALL sp_select_cliente("'.$reporte[0]['id_cliente'].'")');
 $ciudades = file_get_contents('../../../admin/js/estados-municipios.json');
