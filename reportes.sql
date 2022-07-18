@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 11-07-2022 a las 01:04:59
+-- Tiempo de generación: 18-07-2022 a las 00:57:09
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -303,6 +303,15 @@ UPDATE referenciadores SET referenciadores.codigo = _CODIGO WHERE referenciadore
 
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_get_bd_size`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_bd_size` ()  BEGIN
+SELECT  
+SUM(data_length + index_length) AS "bytes" 
+FROM information_schema.TABLES 
+WHERE table_schema = 'reportes'
+GROUP BY table_schema ;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_insertar_abogado`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_abogado` (IN `_NOMBRE` VARCHAR(500), IN `_APELLIDO_PATERNO` VARCHAR(500), IN `_APELLIDO_MATERNO` VARCHAR(500), IN `_TEL` VARCHAR(20), IN `_CORREO` VARCHAR(500), IN `_DIR` VARCHAR(500), IN `_ID_CIUDAD` INT, IN `_FAX` VARCHAR(50), IN `_USUARIO` VARCHAR(500), IN `_PASS` VARCHAR(500), OUT `_ID` INT)  BEGIN
 
@@ -381,6 +390,15 @@ _DIR,_ID_CIUDAD,_FAX);
 INSERT INTO clientes(clientes.id_usuario)
 VALUES(@ID);
 SET _ID = @ID;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insertar_clientes_adicionales_reporte`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_clientes_adicionales_reporte` (IN `ID_REPORTE` INT, IN `_ID_CLIENTE` INT)  NO SQL
+BEGIN
+
+INSERT detalle_clientes_reporte (id_cliente,id_reporte)
+VALUES(_ID_CLIENTE,ID_REPORTE);
+
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insertar_especialidad`$$
@@ -470,7 +488,7 @@ SET _ID = @ID;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insertar_reporte`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_reporte` (IN `_ID_CLIENTE` INT, IN `_FECHA` DATE, IN `_HORA` TIME, IN `_CIUDAD` INT, IN `_COMENTARIOS` VARCHAR(500), IN `_REF` VARCHAR(500), IN `_TIPO` VARCHAR(500), IN `_ESTADO` VARCHAR(500), IN `_ID_ABOGADO` INT, IN `_ID_ASISTENTE` INT, IN `_POLIZA` VARCHAR(500), IN `_ID_ASEGURADORA` INT, IN `_REPORTE` VARCHAR(500), IN `_RECLAMO` VARCHAR(500))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insertar_reporte` (IN `_ID_CLIENTE` INT, IN `_FECHA` DATE, IN `_HORA` TIME, IN `_CIUDAD` INT, IN `_COMENTARIOS` VARCHAR(500), IN `_REF` VARCHAR(500), IN `_TIPO` VARCHAR(500), IN `_ESTADO` VARCHAR(500), IN `_ID_ABOGADO` INT, IN `_ID_ASISTENTE` INT, IN `_POLIZA` VARCHAR(500), IN `_ID_ASEGURADORA` INT, IN `_REPORTE` VARCHAR(500), IN `_RECLAMO` VARCHAR(500), IN `_ID_INFORMANTE` INT(11), OUT `_ID` INT)  BEGIN
 INSERT INTO reportes(
     reportes.fecha_reporte,
     reportes.fecha_accidente,
@@ -486,7 +504,8 @@ INSERT INTO reportes(
     reportes.numero_poliza,
     reportes.id_aseguradora,
     reportes.reporte_policia,
-    reportes.numero_reclamo
+    reportes.numero_reclamo,
+    reportes.id_informante
 )
 VALUES(
     NOW(),
@@ -503,8 +522,10 @@ VALUES(
     _POLIZA,
     _ID_ASEGURADORA,
     _REPORTE,
-    _RECLAMO
+    _RECLAMO,
+    _ID_INFORMANTE
 );
+SET _ID = @@IDENTITY;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_abogado`$$
@@ -754,27 +775,31 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_reportes`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_reportes` ()  BEGIN
-SELECT
-reportes.id_reporte,
-reportes.fecha_reporte,
-reportes.fecha_accidente,
-FN_NOMBRE_CLIENTE(reportes.id_cliente),
-reportes.id_ciudad,
-reportes.hora_accidente,
-reportes.estado,
-reportes.comentarios,
-reportes.referenciado,
-reportes.tipo,
-reportes.status,
-FN_NOMBRE_ABOGADO(reportes.id_abogado),
-FN_NOMBRE_ASISTENTE(reportes.id_asistente),
-reportes.numero_poliza,
-FN_NOMBRE_ASEGURADORA(reportes.id_aseguradora),
-reportes.reporte_policia,
-reportes.numero_reclamo
-FROM reportes
-WHERE reportes.visible = 1;
-END$$
+    SELECT
+    reportes.id_reporte,
+    reportes.fecha_reporte,
+    reportes.fecha_accidente,
+    FN_NOMBRE_CLIENTE(reportes.id_cliente),
+    FN_APELLIDOP_CLIENTE(reportes.id_cliente),
+    FN_APELLIDOM_CLIENTE(reportes.id_cliente),
+    FN_TELEFONO_CLIENTE(reportes.id_cliente),
+    reportes.id_ciudad,
+    reportes.hora_accidente,
+    reportes.comentarios,
+    reportes.tipo,
+    reportes.status,
+    FN_NOMBRE_ABOGADO(reportes.id_abogado),
+    FN_NOMBRE_ASISTENTE(reportes.id_asistente),
+    reportes.referenciado,
+    if(reportes.id_informante>0,FN_NOMBRE_INFORMANTE(reportes.id_informante),'Sin Informante'),
+    reportes.reporte_policia,
+    FN_NOMBRE_ASEGURADORA(reportes.id_aseguradora),
+    reportes.numero_poliza,
+    reportes.numero_reclamo,
+    reportes.estado
+    FROM reportes
+    WHERE reportes.visible = 1;
+    END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_tipos_medicos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_tipos_medicos` ()  BEGIN
@@ -793,6 +818,24 @@ END$$
 --
 -- Funciones
 --
+DROP FUNCTION IF EXISTS `FN_APELLIDOM_CLIENTE`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_APELLIDOM_CLIENTE` (`_ID` INT) RETURNS VARCHAR(500) CHARSET latin1 NO SQL
+BEGIN
+SET @APELLIDOM = (SELECT info_contacto.apellido_materno FROM clientes
+INNER JOIN info_contacto ON info_contacto.id_usuario = clientes.id_usuario
+WHERE clientes.id_cliente = _ID);
+RETURN @APELLIDOM;
+END$$
+
+DROP FUNCTION IF EXISTS `FN_APELLIDOP_CLIENTE`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_APELLIDOP_CLIENTE` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 NO SQL
+BEGIN
+SET @APELLIDOP = (SELECT info_contacto.apellido_paterno FROM clientes
+INNER JOIN info_contacto ON info_contacto.id_usuario = clientes.id_usuario
+WHERE clientes.id_cliente = _ID);
+RETURN @APELLIDOP;
+END$$
+
 DROP FUNCTION IF EXISTS `FN_NOMBRE_ABOGADO`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `FN_NOMBRE_ABOGADO` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 BEGIN
 SET @NOMBRE = (SELECT info_contacto.nombre FROM abogados
@@ -821,6 +864,24 @@ SET @NOMBRE = (SELECT info_contacto.nombre FROM clientes
 INNER JOIN info_contacto ON info_contacto.id_usuario = clientes.id_usuario
 WHERE clientes.id_cliente = _ID);
 RETURN @NOMBRE;
+END$$
+
+DROP FUNCTION IF EXISTS `FN_NOMBRE_INFORMANTE`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_NOMBRE_INFORMANTE` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 NO SQL
+BEGIN
+SET @NOMBRE = (SELECT info_contacto.nombre FROM informantes
+INNER JOIN info_contacto ON info_contacto.id_usuario = informantes.id_usuario
+WHERE informantes.id_informante = _ID);
+RETURN @NOMBRE;
+END$$
+
+DROP FUNCTION IF EXISTS `FN_TELEFONO_CLIENTE`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_TELEFONO_CLIENTE` (`_ID` INT(11)) RETURNS VARCHAR(500) CHARSET latin1 NO SQL
+BEGIN
+SET @TELEFONO = (SELECT info_contacto.telefono FROM clientes
+INNER JOIN info_contacto ON info_contacto.id_usuario = clientes.id_usuario
+WHERE clientes.id_cliente = _ID);
+RETURN @TELEFONO;
 END$$
 
 DELIMITER ;
@@ -918,6 +979,34 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 
 INSERT INTO `clientes` (`id_cliente`, `id_usuario`) VALUES
 (1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_clientes_reporte`
+--
+
+DROP TABLE IF EXISTS `detalle_clientes_reporte`;
+CREATE TABLE IF NOT EXISTS `detalle_clientes_reporte` (
+  `id_detalle_cliente_reporte` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_cliente` int(11) NOT NULL,
+  `id_reporte` int(11) NOT NULL,
+  PRIMARY KEY (`id_detalle_cliente_reporte`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `detalle_clientes_reporte`
+--
+
+INSERT INTO `detalle_clientes_reporte` (`id_detalle_cliente_reporte`, `id_cliente`, `id_reporte`) VALUES
+(1, 1, 16),
+(2, 1, 17),
+(3, 1, 18),
+(4, 1, 19),
+(5, 1, 20),
+(6, 1, 21),
+(7, 1, 22),
+(8, 1, 23);
 
 -- --------------------------------------------------------
 
@@ -1102,19 +1191,38 @@ CREATE TABLE IF NOT EXISTS `reportes` (
   `reporte_policia` varchar(500) NOT NULL,
   `numero_reclamo` varchar(500) NOT NULL,
   `visible` int(11) NOT NULL DEFAULT '1',
+  `id_informante` int(11) NOT NULL,
   PRIMARY KEY (`id_reporte`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `reportes`
 --
 
-INSERT INTO `reportes` (`id_reporte`, `fecha_reporte`, `fecha_accidente`, `id_cliente`, `id_ciudad`, `hora_accidente`, `estado`, `comentarios`, `referenciado`, `tipo`, `status`, `id_abogado`, `id_asistente`, `numero_poliza`, `id_aseguradora`, `reporte_policia`, `numero_reclamo`, `visible`) VALUES
-(1, '2022-07-10 19:35:04', '2022-07-11', 1, 1, '00:34:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 4, 5, 'asd', 6, '123', '213', 0),
-(2, '2022-07-10 19:40:54', '2022-07-11', 1, 1, '00:40:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 4, 5, '123', 1, '123', '123', 0),
-(3, '2022-07-10 19:53:36', '2022-07-11', 1, 1, '00:53:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 1, 1, '123', 1, '213', '123', 0),
-(4, '2022-07-10 19:54:12', '2022-07-11', 1, 1, '00:54:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 0),
-(5, '2022-07-10 20:04:15', '2022-07-11', 1, 1, '01:04:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1);
+INSERT INTO `reportes` (`id_reporte`, `fecha_reporte`, `fecha_accidente`, `id_cliente`, `id_ciudad`, `hora_accidente`, `estado`, `comentarios`, `referenciado`, `tipo`, `status`, `id_abogado`, `id_asistente`, `numero_poliza`, `id_aseguradora`, `reporte_policia`, `numero_reclamo`, `visible`, `id_informante`) VALUES
+(1, '2022-07-10 19:35:04', '2022-07-11', 1, 1, '00:34:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 4, 5, 'asd', 6, '123', '213', 0, 0),
+(2, '2022-07-10 19:40:54', '2022-07-11', 1, 1, '00:40:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 4, 5, '123', 1, '123', '123', 0, 0),
+(3, '2022-07-10 19:53:36', '2022-07-11', 1, 1, '00:53:00', 0, 'asd', 'Calle', 'Comercio', 'Proceso', 1, 1, '123', 1, '213', '123', 0, 0),
+(4, '2022-07-10 19:54:12', '2022-07-11', 1, 1, '00:54:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 0, 0),
+(5, '2022-07-10 20:04:15', '2022-07-11', 1, 1, '01:04:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(6, '2022-07-12 20:49:00', '2022-07-13', 1, 1, '01:48:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(7, '2022-07-12 21:32:09', '2022-07-13', 1, 1, '02:24:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(8, '2022-07-17 10:26:58', '2022-07-17', 1, 1, '15:26:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(9, '2022-07-17 10:28:04', '2022-07-17', 1, 1, '15:27:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(10, '2022-07-17 10:28:49', '2022-07-17', 1, 1, '15:28:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(11, '2022-07-17 10:31:05', '2022-07-17', 1, 1, '15:30:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(12, '2022-07-17 10:32:29', '2022-07-17', 1, 1, '15:32:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(13, '2022-07-17 10:38:45', '2022-07-17', 1, 1, '15:38:00', 0, ' ', 'Calle,Oficina', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(14, '2022-07-17 10:39:39', '2022-07-17', 1, 1, '15:39:00', 0, ' ', 'Calle,Oficina', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(15, '2022-07-17 10:40:20', '2022-07-17', 1, 1, '15:40:00', 0, ' ', 'Calle,Oficina', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 0),
+(16, '2022-07-17 15:50:09', '2022-07-17', 1, 1, '20:49:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 1),
+(17, '2022-07-17 17:10:59', '2022-07-17', 1, 1, '22:02:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 1),
+(18, '2022-07-17 17:11:42', '2022-07-17', 1, 1, '22:11:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 1),
+(19, '2022-07-17 17:16:09', '2022-07-17', 1, 1, '22:16:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 1),
+(20, '2022-07-17 17:27:18', '2022-07-17', 1, 1, '22:27:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 1),
+(21, '2022-07-17 17:32:44', '2022-07-17', 1, 1, '22:32:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 1),
+(22, '2022-07-17 17:34:32', '2022-07-17', 1, 1, '22:34:00', 0, 'test', 'Calle', 'Comercio', 'Proceso', 1, 1, '123', 1, '123', '213', 1, 1),
+(23, '2022-07-17 19:55:46', '2022-07-18', 1, 1, '00:55:00', 0, ' ', 'Calle', 'Comercio', 'Proceso', 1, 1, ' ', 1, ' ', ' ', 1, 1);
 
 -- --------------------------------------------------------
 
