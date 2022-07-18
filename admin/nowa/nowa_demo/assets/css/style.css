@@ -90855,3 +90855,11 @@ a.text-dark:focus {
     z-index:999999 !important;
     margin-top: -50px;
 }
+#folder_content #mover_carpeta img{
+    object-fit:cover; height:auto; width:auto;
+}
+
+[folder]{
+    max-width: 70px !important;
+    max-height: 70px !important;
+}

@@ -1,5 +1,15 @@
 <?php 
-function get_directory_size($dir){
+session_start();
+include_once('../../m/SQLConexion.php');
+$sql = new SQLConexion();
+
+$disk_consumed = $sql->obtenerResultado("CALL sp_get_bd_size()");
+$bytes_used = $disk_consumed[0][0];
+// limit bytes to 1.5 gb
+$max_size_disk = 1610612736;
+// limit bytes to 500mb
+$max_size_db = 524288000;
+function folderSize($dir){
     $size = 0;
     
     foreach (glob(rtrim($dir, '/').'/*', GLOB_NOSORT) as $each) {
@@ -26,9 +36,13 @@ function bytes_to_other($bytes){
     }
 }
 
-$porcentaje = percentage_of_files(1073741824, get_directory_size('../../../images/*'));
+$porcentaje = percentage_of_files($max_size_disk, folderSize('../../../images/*'));
+$files_size = bytes_to_other(folderSize('../../../images/*'));
+$disk_size = bytes_to_other($max_size_disk);
 
-$files_size = bytes_to_other(get_directory_size('../../../images/*'));
+$uso_bd = bytes_to_other($bytes_used);
+$limite_bd = bytes_to_other($max_size_db);
+$porcentaje_bd = percentage_of_files($max_size_db, $bytes_used);
 ?>
 <div class="main-container container-fluid">
 
@@ -51,22 +65,27 @@ $files_size = bytes_to_other(get_directory_size('../../../images/*'));
                 <a class="btn btn-primary btn-compose disabled" id="btnCompose" data-bs-target="#Vertically" data-bs-toggle="modal" href=""><i class="fa fa-plus me-2"></i> Crear carpeta</a>
                 <div class="main-mail-menu">
                     <nav class="nav main-nav-column">
-                        <a class="nav-link thumb active " href="javascript:void(0);"><i class="fe fe-image"></i> Imagenes </a>
-                        <a class="nav-link thumb" href="javascript:void(0);"><i class="fe fe-music"></i> Audios</a>
-                        <a class="nav-link thumb" href="javascript:void(0);"><i class="fe fe-video"></i> Videos</a>
-                        <a class="nav-link thumb" href="javascript:void(0);"><i class="fe fe-trash"></i> Cache</a>
-                        <a class="nav-link thumb" href="javascript:void(0);"><i class="fe fe-grid "></i> Otros</a>
+                        <a class="nav-link thumb" href="javascript:void(0);" id="mover_carpeta" data-folder="reportes" ><i class="fe fe-file-text"></i> Reportes</a>
+                        <a class="nav-link thumb" href="javascript:void(0);" id="mover_carpeta" data-folder="temp"><i class="fe fe-trash"></i> Temporales</a>
                     </nav>
                 </div>
-
-                <div class="card custom-card mt-3 pb-0 mb-0">
+                <div class="card custom-card mt-1 pb-0 mb-0">
+                    <div class="card-header font-weight-bold"><i class="fe fe-hard-drive me-2"></i>Base de datos</div>
+                    <div class="card-body pt-0">
+                        <div class="progress fileprogress mg-b-10">
+                            <div class="progress-bar progress-bar-xs wd-15p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $porcentaje_bd; ?>%;"></div>
+                        </div>
+                        <div class="text-muted font-weight-semibold tx-13 mb-1"><?php echo $uso_bd; ?> usados de <?php echo $limite_bd; ?> (<?php echo $porcentaje_bd; ?>%)</div>
+                    </div>
+                </div>
+                <div class="card custom-card pb-0 mb-0">
                     <div class="card-header font-weight-bold"><i class="fe fe-hard-drive me-2"></i>Almacenamiento</div>
                     <div class="card-body pt-0">
                         <div class="progress fileprogress mg-b-10">
                             <div class="progress-bar progress-bar-xs wd-15p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $porcentaje; ?>%;"></div>
                         </div>
-                        <div class="text-muted font-weight-semibold tx-13 mb-1"><?php echo $files_size; ?> usados de 1GB</div>
-                        <div class="tx-13 text-primary font-weight-semibold">Solicitar espacio</div>
+                        <div class="text-muted font-weight-semibold tx-13 mb-1"><?php echo $files_size; ?> usados de <?php echo $disk_size; ?> (<?php echo $porcentaje; ?>%)</div>
+                        <div class="tx-13 text-primary mt-5 font-weight-semibold">Solicitar espacio</div>
                     </div>
                 </div>
             </div>
@@ -74,36 +93,19 @@ $files_size = bytes_to_other(get_directory_size('../../../images/*'));
     </div>
     <div class="col-lg-8 col-xl-9">
         <div class="text-muted mb-2 tx-16">Archivos</div>
-            <!-- <div class="row">
-                <div class="col-xl-3 col-md-4 col-sm-6">
-                    <div class="card p-0 ">
-                        <div class="d-flex align-items-center px-3 pt-3">
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
-                                <span class="custom-control-label"></span>
-                            </label>
-                            <div class="float-end ms-auto">
-                                <a href="javascript:void(0);" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="fe fe-edit me-2"></i> Edit</a>
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="fe fe-share me-2"></i> Share</a>
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="fe fe-download me-2"></i> Download</a>
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="fe fe-trash me-2"></i> Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body pt-0 text-center">
-                        <div class="file-manger-icon">
-                                <a href="https://codeigniter.spruko.com/nowa/nowa_demo/file-details">
-                                    <img src="https://codeigniter.spruko.com/nowa/nowa_demo/assets/img/files/file.png" alt="img" class="br-7">
-                                </a>
-                            </div>
-                            <h6 class="mb-1 font-weight-semibold">document.pdf</h6>
-                            <span class="text-muted">23kb</span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+        <script>
+            $.ajax({
+                url: '../php/v/0/ver_folder.php',
+                type: 'POST',
+                success: function(data){
+                    $('#folder_content').html(data);
+                }
+            });
+        </script>
+            <div class="row" id="folder_content">
+                
+                
+            </div>
         </div>
     </div>
 </div>

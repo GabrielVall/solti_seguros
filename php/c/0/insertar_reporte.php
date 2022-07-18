@@ -1,18 +1,5 @@
 <?php 
-// cliente:
-// fecha: 
-// hora: 
-// ciudad:
-// comentarios: 
-// referenciado:
-// tipo:
-// estado:
-// abogado:
-// asistente:
-// poliza:
-// aseguradora:
-// reporte_policial:
-// reclamo:
+
 session_start();
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
@@ -29,5 +16,22 @@ for ($i=0; $i < count($clientes_adicionales); $i++) {
     $rpta2 = $sql->obtenerResultadoSimple("CALL sp_insertar_clientes_adicionales_reporte('".$resultado[0][0]."','".$clientes_adicionales[$i]."')");
 }
 if($resultado){
+    // Movemos las imagenes a una carpeta permanente
+    // id folder
+    $id_folder = $resultado[0][0];
+    // creamos una carpeta con el id del reporte
+    $carpeta = "../../../images/reportes/".$id_folder;
+    mkdir($carpeta, 0777, true);
+    // movemos los archivos del arreglo a la carpeta creada
+
+    $imagenes=json_decode($_POST['imagenes'],true); 
+    $total_imagenes=count($imagenes);
+    for($i=0;$i<$total_imagenes;$i++){
+        $temp_name = $imagenes[$i]['name'];
+        $new_name = $imagenes[$i]['og_name'];
+        $file_location = "../../../images/temp/".$temp_name;
+        $new_location = $carpeta."/".$new_name;
+        rename($file_location, $new_location);
+    }
     echo JSON_encode(array('status' => 'success', 'message' => 'Tu reporte fue agregado correctamente'));
 }

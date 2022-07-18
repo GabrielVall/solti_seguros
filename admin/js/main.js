@@ -750,6 +750,10 @@ $(document).ready(function() {
                 }
             }
         }
+        // Si existe el arreglo uploaded_files
+        if(uploaded_files != undefined){
+            form_data.append('imagenes', JSON.stringify(uploaded_files));
+        }
         $.ajax({
             url: '../php/c/0/insertar_reporte.php',
             type: 'POST',
@@ -762,11 +766,27 @@ $(document).ready(function() {
                     window.location.href = '#reportes';
                     alertify.set('notifier','position', 'top-right');
                     alertify.success('Registro agregado');
-                    
+                    if(uploaded_files != undefined){
+                        // vaciar arreglo
+                        uploaded_files = [];
+                    }
                 }
             }
         });
     }
+    $(document).on('click', '#mover_carpeta', function(){
+        var folder = $(this).data('folder');
+        if(folder ){
+            $.ajax({
+                url: '../php/v/0/ver_folder.php',
+                type: 'POST',
+                data: {folder: folder},
+                success: function(data){
+                    $('#folder_content').html(data);
+                }
+            });
+        }
+    });
     function validar_inputs(contenedor){
         var inputs = $(contenedor).find(':input');
         var valido = 0;
