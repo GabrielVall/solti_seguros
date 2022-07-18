@@ -108,8 +108,8 @@ if($tipo != 'carpetas'){
                         </div>
                         <div class="col-xl-8 col-lg-6 col-md-12 col-sm-12">
                             <div class="text-justified align-items-center">
-                                <h2 class="text-dark font-weight-semibold mb-3 mt-2">Selecciona una carpeta para <span class="text-primary">ver los archivos</span></h2>
-                                <p class="text-dark tx-17 mb-2 lh-3"> El espacio de almacenamiento marcado tienes es 100% tuyo y no es ocupado por <span class="text-primary"> ningún archivo del proyecto.</span></p>
+                                <h2 class="text-dark font-weight-semibold mb-3 mt-2">Selecciona una carpeta para <span class="text-primary">acceder a los archivos</span></h2>
+                                
                             </div>
                         </div>
                     </div>

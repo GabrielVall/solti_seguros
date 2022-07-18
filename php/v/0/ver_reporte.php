@@ -3,7 +3,7 @@ include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
 $reporte = $sql->obtenerResultado('CALL sp_select_reporte("'.$_POST['id'].'")');
 // force num to 8 zeros
-$_POST['id'] = sprintf("%08d", $_POST['id']);
+$folio = sprintf("%08d", $_POST['id']);
 $total_reporte = count($reporte);
 $cliente = $sql->obtenerResultado('CALL sp_select_cliente("'.$reporte[0]['id_cliente'].'")');
 $ciudades = file_get_contents('../../../admin/js/estados-municipios.json');
@@ -25,7 +25,7 @@ function estado_name($id){
     }
 }
 $nombre_c = $cliente[0]['nombre'];
-$id_c = $_POST['id'];
+$id_c = $folio;
 $mensaje = "
 ¡Hola {$nombre_c}!, el reporte fue aceptado y esta siendo procesado ahora mismo, si tienes alguna duda puedes contactarnos desde http://lawfirmgloria.com/ y te atenderemos rápidamente.
 Seras informado por este medio cada que tengamos más información sobre tu reporte.
@@ -37,7 +37,7 @@ $tel_cliente = $cliente[0]['telefono'];
 $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
 ?>
     <div class="modal-header">
-        <h6 class="modal-title">Detalles del reporte #<?php echo $_POST['id']; ?></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+        <h6 class="modal-title">Detalles del reporte #<?php echo $folio; ?></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body" style="margin: 0;padding: 0;">
     <div class="card custom-card" style="margin-bottom:0px;">
@@ -45,7 +45,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
             <div class="d-lg-flex">
                 <h6 class="main-content-label mb-1"><span class="d-flex mb-4"><a href="#"><img src="logo2_white.png" class="sign-favicon ht-40" alt="logo"></a></span></h6>
                 <div class="ms-auto">
-                    <p class="mb-1"><span class="font-weight-bold">Folio: <?php echo $_POST['id']; ?></span></p>
+                    <p class="mb-1"><span class="font-weight-bold">Folio: <?php echo $folio; ?></span></p>
                 </div>
             </div>
             <div class="row row-sm">
@@ -87,69 +87,38 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                 </div>
                 
             </div>
-            <div class="table-responsive mg-t-40">
-                <table class="table table-invoice table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="wd-20p">Folio adelanto</th>
-                            <th class="wd-40p">Fecha</th>
-                            <th class="tx-center">Descripción</th>
-                            <th class="tx-right">Cambio</th>
-                            <th class="tx-right">Cargo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#2022982</td>
-                            <td class="tx-12">16 de agosto del 2022</td>
-                            <td class="tx-center">Compra de equipo medico</td>
-                            <td class="tx-right">USD</td>
-                            <td class="tx-right">$1200.00</td>
-                        </tr>
-                        <tr>
-                            <td>#2022986</td>
-                            <td class="tx-12">18 de agosto del 2022</td>
-                            <td class="tx-center">Gastos de movilidad</td>
-                            <td class="tx-right">USD</td>
-                            <td class="tx-right">$400.00</td>
-                        </tr>
-                        <tr>
-                            <td>#2022989</td>
-                            <td class="tx-12">20 de agosto del 2022</td>
-                            <td class="tx-center">Gastos hospital privado</td>
-                            <td class="tx-right">USD</td>
-                            <td class="tx-right">$5200.00</td>
-                        </tr>
-                        <tr>
-                            <td class="valign-middle" colspan="2" rowspan="4">
-                                <div class="invoice-notes">
-                                    <label class="main-content-label tx-13">Comentarios del reporte</label>
-                                    <p>Los incidentes ocurrieron el lunes pasado en el museo de arte moderno. Como cualquier día, todos los empleados se retiraron del museo a las siete y media y a las ocho el guardia de seguridad cerró las puertas.
-                                    Según contaron los testigos, a las nueve vieron salir a un hombre que llevaba un objeto con forma rectangular y que se subió a un auto, que estaba enfrente del museo. Se cree que el hombre ingresó al museo después de que este cerrara, pero también cabe la posibilidad de que el hombre haya entrado antes del cierre.
-                                    </p>
+            <div class="col-xxl-4 col-xl-12 col-lg-12 col-md-12">
+                            <div class="card custom-card">
+                                <div class="card-body">
+                                    <div class="row row-sm file-detailimg">
+        
+                                        <ul id="lightgallery" class="list-unstyled row mb-0 px-2">
+
+                                        <?php
+                                            $files = scandir('../../../images/reportes/'.$_POST['id']);
+                                            foreach($files as $file){
+                                                if($file != '.' && $file != '..'){
+                                                    $archivo = '../images/reportes/'.$_POST['id'].'/'.$file;
+                                                    ?>
+                                                    <li class="col-sm-4 col-md-4 col-xl-3" data-responsive="<?php echo $archivo ?>" data-src="<?php echo $archivo ?>">
+                                                        <a href="" class="wd-100p">
+                                                            <img class="img-responsive br-5" src="<?php echo $archivo ?>" alt="Thumb-1">
+                                                        </a>
+                                                    </li>
+                                                    <?php
+                                                }
+                                            }
+                                        // }
+                                        ?>
+
+                                        </ul>
+                                        <!-- light gallery -->
+                                    </div>
                                 </div>
-                                <!-- invoice-notes -->
-                            </td>
-                            <td class="tx-right">Total de aseguranza</td>
-                            <td class="tx-right" colspan="2">$100,000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="tx-right">Comsión lawfirm (40%)</td>
-                            <td class="tx-right" colspan="2">$40,000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="tx-right">Total adelantos</td>
-                            <td class="tx-right" colspan="2">$6,800.00</td>
-                        </tr>
-                        <tr>
-                            <td class="tx-right tx-uppercase tx-bold tx-inverse">Entregado al cliente</td>
-                            <td class="tx-right" colspan="2">
-                                <h4 class="tx-bold">$53,200.00</h4>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </div>
+                        
+                    </div>
         </div>
         <div class="card-footer text-end">
             <a href="<?php echo $ref ?>" target="_blank" type="button" class="btn ripple btn-primary mb-1">
@@ -160,3 +129,9 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
         </div>
     </div>
     </div>
+<script>
+lightGallery(document.getElementById('lightgallery'), {
+    speed: 500,
+    mode: 'lg-fade',
+});
+</script>

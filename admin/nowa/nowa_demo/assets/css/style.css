@@ -90863,3 +90863,10 @@ a.text-dark:focus {
     max-width: 70px !important;
     max-height: 70px !important;
 }
+.lg-outer {
+    z-index: 99999 !important;
+}
+.lg-backdrop {
+    position: fixed;
+    z-index: 99998 !important;
+}
