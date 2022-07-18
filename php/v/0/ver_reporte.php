@@ -2,8 +2,12 @@
 include_once('../../m/SQLConexion.php');
 $sql = new SQLConexion();
 $reporte = $sql->obtenerResultado('CALL sp_select_reporte("'.$_POST['id'].'")');
+$clientes_adicionales = $sql->obtenerResultado('CALL sp_select_clientes_adicionales("'.$_POST['id'].'")');
+$total_clientes_adicionales = COUNT($clientes_adicionales);
 // force num to 8 zeros
-$_POST['id'] = sprintf("%08d", $_POST['id']);
+$año = explode("-",$reporte[0]['fecha_accidente']);
+$_POST['id'] = sprintf("%03d", $_POST['id']);
+$_POST['id'] = $_POST['id'].'-'.$año[0];
 $total_reporte = count($reporte);
 $cliente = $sql->obtenerResultado('CALL sp_select_cliente("'.$reporte[0]['id_cliente'].'")');
 $ciudades = file_get_contents('../../../admin/js/estados-municipios.json');
@@ -57,7 +61,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                         Abogado acargo: <?php echo $reporte[0]['nombre_abogado'] ?><br>
                         Asistente: <?php echo $reporte[0]['nombre_asistente'] ?><br>
                         Referenciado: <?php echo $reporte[0]['referenciado'] ?><br>
-                        
+                        Informante: <?php echo $reporte[0]['informante']?><br>
                         Reclamo: <?php echo $reporte[0]['numero_reclamo'] ?><br>
                     </address>
                     <div class="">
@@ -70,81 +74,63 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                 <div class="col-lg-6 text-end">
                     <p class="h3">Datos cliente:</p>
                     <address>
-                        Street Address<br>
                         <?php echo $cliente[0]['nombre']; ?> <?php echo $cliente[0]['apellido_paterno']; ?>  <?php echo $cliente[0]['apellido_materno']; ?><br>
                         Tipo: <?php echo $reporte[0]['tipo'] ?><br>
                         Aseguradora: <?php echo $reporte[0]['nombre_aseguradora'] ?><br>
-                        Telefono:<?php echo $cliente[0]['telefono'] ?><br>
+                        Numero de poliza: <?php echo $reporte[0]['numero_poliza'] ?><br>
+                        Estatus del pago: <?php echo $reporte[0]['status'] ?><br>
+                        Telefono: <?php echo $cliente[0]['telefono'] ?><br>
                         Reporte policial: <?php echo $reporte[0]['reporte_policia'] ?><br>
+                        Numero de reclamo: <?php echo $reporte[0]['numero_reclamo'] ?><br>
                         
                     </address>
                     <div class="">
                         <p class="mb-1"><span class="font-weight-bold">Fecha del accidente:</span></p>
-                            <address>
-                            <?php echo $reporte[0]['fecha_accidente']; ?> <?php echo $reporte[0]['hora_accidente']; ?>
-                            </address>
+                        <address>
+                        <?php echo $reporte[0]['fecha_accidente']; ?> <?php echo $reporte[0]['hora_accidente']; ?>
+                        </address>
                     </div>
                 </div>
-                
             </div>
+            <?php if($total_clientes_adicionales>0) {?>
+            <div class="row row-sm">
+                <div class="col-lg-6 ">
+                    <p class="h3">Clientes adicionales:</p>
+                    <?php for ($i=0; $i < $total_clientes_adicionales; $i++) {?>
+                    <address>
+                        Nombre: <?php echo $clientes_adicionales[$i]['nombre']?> <?php echo $clientes_adicionales[$i]['apellido_p']?> <?php echo $clientes_adicionales[$i]['apellido_m']?><br>
+                        Telefono: <?php echo $clientes_adicionales[$i]['telefono']?><br>
+                    </address>    
+                    <?php }?>
+                    
+                </div>
+            </div>
+            <?php }?>
             <div class="table-responsive mg-t-40">
                 <table class="table table-invoice table-bordered">
                     <thead>
                         <tr>
-                            <th class="wd-20p">Folio adelanto</th>
-                            <th class="wd-40p">Fecha</th>
-                            <th class="tx-center">Descripción</th>
-                            <th class="tx-right">Cambio</th>
-                            <th class="tx-right">Cargo</th>
+                            <th style="width:50% !important;">Comentarios del reporte</th>
+                            <th style="width:50% !important;">Reporte policial</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>#2022982</td>
-                            <td class="tx-12">16 de agosto del 2022</td>
-                            <td class="tx-center">Compra de equipo medico</td>
-                            <td class="tx-right">USD</td>
-                            <td class="tx-right">$1200.00</td>
-                        </tr>
-                        <tr>
-                            <td>#2022986</td>
-                            <td class="tx-12">18 de agosto del 2022</td>
-                            <td class="tx-center">Gastos de movilidad</td>
-                            <td class="tx-right">USD</td>
-                            <td class="tx-right">$400.00</td>
-                        </tr>
-                        <tr>
-                            <td>#2022989</td>
-                            <td class="tx-12">20 de agosto del 2022</td>
-                            <td class="tx-center">Gastos hospital privado</td>
-                            <td class="tx-right">USD</td>
-                            <td class="tx-right">$5200.00</td>
-                        </tr>
-                        <tr>
-                            <td class="valign-middle" colspan="2" rowspan="4">
+                            <td style="width:50% !important;">
                                 <div class="invoice-notes">
-                                    <label class="main-content-label tx-13">Comentarios del reporte</label>
-                                    <p>Los incidentes ocurrieron el lunes pasado en el museo de arte moderno. Como cualquier día, todos los empleados se retiraron del museo a las siete y media y a las ocho el guardia de seguridad cerró las puertas.
-                                    Según contaron los testigos, a las nueve vieron salir a un hombre que llevaba un objeto con forma rectangular y que se subió a un auto, que estaba enfrente del museo. Se cree que el hombre ingresó al museo después de que este cerrara, pero también cabe la posibilidad de que el hombre haya entrado antes del cierre.
+                                    <p>
+                                        <?php echo $reporte[0]['comentarios']?>
                                     </p>
                                 </div>
                                 <!-- invoice-notes -->
                             </td>
-                            <td class="tx-right">Total de aseguranza</td>
-                            <td class="tx-right" colspan="2">$100,000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="tx-right">Comsión lawfirm (40%)</td>
-                            <td class="tx-right" colspan="2">$40,000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="tx-right">Total adelantos</td>
-                            <td class="tx-right" colspan="2">$6,800.00</td>
-                        </tr>
-                        <tr>
-                            <td class="tx-right tx-uppercase tx-bold tx-inverse">Entregado al cliente</td>
-                            <td class="tx-right" colspan="2">
-                                <h4 class="tx-bold">$53,200.00</h4>
+                            <td style="width:50% !important;">
+                                <div class="invoice-notes">
+                                    <p>
+                                        <?php echo $reporte[0]['reporte_policia']?>
+                                    </p>
+                                </div>
+                                <!-- invoice-notes -->
                             </td>
                         </tr>
                     </tbody>
