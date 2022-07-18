@@ -33,6 +33,7 @@ if(!isset($_SESSION['id_usuario'])){
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js" integrity="sha512-bUg5gaqBVaXIJNuebamJ6uex//mjxPk8kljQTdM1SwkNrQD7pjS+PerntUSD+QRWPNJ0tq54/x4zRV8bLrLhZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.css" integrity="sha512-DanfxWBasQtq+RtkNAEDTdX4Q6BPCJQ/kexi/RftcP0BcA4NIJPSi7i31Vl+Yl5OCfgZkdJmCqz+byTOIIRboQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.6.0-beta.1/css/lightgallery.min.css" integrity="sha512-Szyqrwc8kFyWMllOpTgYCMaNNm/Kl8Fz0jJoksPZAWUqhE60VRHiLLJVcIQKi+bOMffjvrPCxtwfL+/3NPh/ag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
 	<body class="ltr main-body app sidebar-mini">
 		<div class="page">
@@ -142,4 +143,5 @@ if(!isset($_SESSION['id_usuario'])){
 		<!-- Switcher js -->
 		<!-- <script src="nowa/nowa_demo/assets/switcher/js/switcher.js"></script> -->
 		<script src="js/main.js?0.1"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.6.0-beta.1/lightgallery.umd.min.js" integrity="sha512-mTkrmSjDbnQupfqRqR37iXQBo1/ibXR2dHvKQ5e72HENLkjOkrJXapSsctcSCSQ7ufPgdWZmQ+mBf9KnFjbaSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>
