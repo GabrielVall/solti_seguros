@@ -71,7 +71,7 @@ if($slash == 'referenciadores.php' || $slash == 'form_referenciadores.php'){
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
-                <input type="password" class="form-control" id="pass" placeholder="Contraseña">
+                <input type="password" class="form-control" id="usuario_pswd" placeholder="Contraseña">
             </div>
             <div class="form-group">
                 <label for="codigo">Clave o PIN</label>

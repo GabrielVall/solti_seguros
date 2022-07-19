@@ -137,7 +137,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                     </tbody>
                 </table>
             </div>
-            <div class="col-xxl-4 col-xl-12 col-lg-12 col-md-12">
+            <div class="col-lg-12 col-md-12">
                             <div class="card custom-card">
                                 <div class="card-body">
                                     <div class="row row-sm file-detailimg">
@@ -150,7 +150,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                                                 if($file != '.' && $file != '..'){
                                                     $archivo = '../images/reportes/'.$id_folder.'/'.$file;
                                                     ?>
-                                                    <li class="col-sm-4 col-md-4 col-xl-3" data-responsive="<?php echo $archivo ?>" data-src="<?php echo $archivo ?>">
+                                                    <li class="col-sm-4 col-md-4 col-xl-4" data-responsive="<?php echo $archivo ?>" data-src="<?php echo $archivo ?>">
                                                         <a href="" class="wd-100p">
                                                             <img class="img-responsive br-5" src="<?php echo $archivo ?>" alt="<?php echo $file; ?>">
                                                         </a>

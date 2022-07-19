@@ -77,7 +77,7 @@ if($_SESSION['hash'] == 'proveedores'){
             </div>
             <div class="form-group" style="<?php if(isset($hidden['pass'])){echo "display:none;";} ?>">
                 <label for="pass">Contraseña</label>
-                <input type="password" class="form-control" id="pass" <?php if(isset($hidden['pass'])){echo 'value="Sin Valor"';} ?> placeholder="Contraseña">
+                <input type="password" class="form-control" id="usuario_pswd" <?php if(isset($hidden['pass'])){echo 'value="Sin Valor"';} ?> placeholder="Contraseña">
             </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
                 <div>

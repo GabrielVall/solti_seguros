@@ -318,7 +318,7 @@ $(document).ready(function() {
     //     $('#ciudad').html(options);
     // });
     function cargar_tablas(){
-        $('table').DataTable({
+        $('table:not(".ignore")').DataTable({
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -375,11 +375,11 @@ $(document).ready(function() {
         generar_usuario();
     });
     $(document).on('click', '#generar_pass', function(e){
-        $('#pass').val(generar_pass());
+        $('#usuario_pswd').val(generar_pass());
     });
     $(document).on('click', '#copiar_pass', function(e){
-          /* Get the text field */
-        var copyText = document.getElementById("pass");
+          /* Get the text field */copiar_pass
+        var copyText = document.getElementById("usuario_pswd");
 
         /* Select the text field */
         copyText.select();
@@ -562,7 +562,7 @@ $(document).ready(function() {
         var originalContents = document.body.innerHTML;
         document.body.innerHTML = printContents;
         window.print();
-        document.body.innerHTML = originalContents;
+        window.location.reload();
     }
     $(document).on('click', '#editar_cliente_form', function(){
         var id = $(this).data('id');
