@@ -9,7 +9,6 @@ if ($_POST['referenciado']=="Calle") {
 }else{
     $informante = 0;
 }
-echo "CALL sp_insertar_reporte('".$_POST['cliente']."', '".$_POST['fecha']."', '".$_POST['hora']."', '".$_POST['ciudad']."', '".$_POST['comentarios']."', '".$_POST['referenciado']."', '".$_POST['tipo']."', '".$_POST['estado']."', '".$_POST['abogado']."', '".$_POST['asistente']."', '".$_POST['poliza']."', '".$_POST['aseguradora']."', '".$_POST['reporte_policial']."', '".$_POST['reclamo']."', '".$informante."',@_ID)";
 $resultado = $sql->obtenerResultadoID("CALL sp_insertar_reporte('".$_POST['cliente']."', '".$_POST['fecha']."', '".$_POST['hora']."', '".$_POST['ciudad']."', '".$_POST['comentarios']."', '".$_POST['referenciado']."', '".$_POST['tipo']."', '".$_POST['estado']."', '".$_POST['abogado']."', '".$_POST['asistente']."', '".$_POST['poliza']."', '".$_POST['aseguradora']."', '".$_POST['reporte_policial']."', '".$_POST['reclamo']."', '".$informante."',@_ID)");
 $id_folder = $resultado[0][0];
 $clientes_adicionales = explode("," , $_POST['clientes_adicionales']);

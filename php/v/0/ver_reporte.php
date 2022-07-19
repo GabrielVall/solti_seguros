@@ -152,7 +152,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                                                     ?>
                                                     <li class="col-sm-4 col-md-4 col-xl-3" data-responsive="<?php echo $archivo ?>" data-src="<?php echo $archivo ?>">
                                                         <a href="" class="wd-100p">
-                                                            <img class="img-responsive br-5" src="<?php echo $archivo ?>" alt="Thumb-1">
+                                                            <img class="img-responsive br-5" src="<?php echo $archivo ?>" alt="<?php echo $file; ?>">
                                                         </a>
                                                     </li>
                                                     <?php
