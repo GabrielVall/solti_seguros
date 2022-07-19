@@ -118,19 +118,19 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                     <tbody>
                         <tr>
                             <td style="width:50% !important;">
-                                <div class="invoice-notes">
+                                <!-- <div class="invoice-notes"> -->
                                     <p>
                                         <?php echo $reporte[0]['comentarios']?>
                                     </p>
-                                </div>
+                                <!-- </div> -->
                                 <!-- invoice-notes -->
                             </td>
                             <td style="width:50% !important;">
-                                <div class="invoice-notes">
+                                <!-- <div class="invoice-notes"> -->
                                     <p>
                                         <?php echo $reporte[0]['reporte_policia']?><br>
                                     </p>
-                                </div>
+                                <!-- </div> -->
                                 <!-- invoice-notes -->
                             </td>
                         </tr>
