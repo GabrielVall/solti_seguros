@@ -99,8 +99,8 @@ function estado_name($id){
                                 <?php echo '<td>'.$reporte[5].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[6].'</td>'; ?>
                                 
-                                <?php echo '<td>'.ciudad_name($reporte[8]).'</td>'; ?>
-                                <?php echo '<td>'.estado_name($reporte[8]).'</td>'; ?>
+                                <?php echo '<td>'.ciudad_name($reporte[7]).'</td>'; ?>
+                                <?php echo '<td>'.estado_name($reporte[7]).'</td>'; ?>
                                 <?php echo '<td>'.$reporte[8].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[9].'</td>'; ?>
                                 <?php echo '<td>'.$reporte[10].'</td>'; ?>

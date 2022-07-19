@@ -7,7 +7,7 @@ $total_clientes_adicionales = COUNT($clientes_adicionales);
 // force num to 8 zeros
 $año = explode("-",$reporte[0]['fecha_accidente']);
 $_POST['id'] = sprintf("%03d", $_POST['id']);
-$_POST['id'] = $_POST['id'].'-'.$año[0];
+$folio_reporte = $_POST['id'].'-'.$año[0];
 $total_reporte = count($reporte);
 $cliente = $sql->obtenerResultado('CALL sp_select_cliente("'.$reporte[0]['id_cliente'].'")');
 $ciudades = file_get_contents('../../../admin/js/estados-municipios.json');
@@ -41,7 +41,7 @@ $tel_cliente = $cliente[0]['telefono'];
 $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
 ?>
     <div class="modal-header">
-        <h6 class="modal-title">Detalles del reporte #<?php echo $folio; ?></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+        <h6 class="modal-title">Detalles del reporte #<?php echo $folio_reporte;?></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body" style="margin: 0;padding: 0;">
     <div class="card custom-card" style="margin-bottom:0px;">
@@ -49,7 +49,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
             <div class="d-lg-flex">
                 <h6 class="main-content-label mb-1"><span class="d-flex mb-4"><a href="#"><img src="logo2_white.png" class="sign-favicon ht-40" alt="logo"></a></span></h6>
                 <div class="ms-auto">
-                    <p class="mb-1"><span class="font-weight-bold">Folio: <?php echo $folio; ?></span></p>
+                    <p class="mb-1"><span class="font-weight-bold">Folio: <?php echo $folio_reporte; ?></span></p>
                 </div>
             </div>
             <div class="row row-sm">
@@ -127,7 +127,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                             <td style="width:50% !important;">
                                 <div class="invoice-notes">
                                     <p>
-                                        <?php echo $reporte[0]['reporte_policia']?>
+                                        <?php echo $reporte[0]['reporte_policia']?><br>
                                     </p>
                                 </div>
                                 <!-- invoice-notes -->
