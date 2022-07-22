@@ -480,6 +480,10 @@ $(document).ready(function() {
         imprimir_vista('#form_cliente_content','form_especialidades.php',0);
     });
 
+    $(document).on('click','#cancelar_editar_adelanto', function(e){
+        imprimir_vista('#form_adelanto_content','form_adelantos.php',0);
+    });
+
     $(document).on('click', '#eliminar_registro', function(e){
         alertify.confirm('Alerta', '¿Estas seguro de realizar esta acción?, ¡esto no podra deshacerse!.', function(){
             var id_cliente = $(e.target).parent().data('id');
@@ -531,6 +535,11 @@ $(document).ready(function() {
     $(document).on('click', '#editar_informante', function(){
         var id = $(this).parent().data('id');
         imprimir_vista('#form_cliente_content','editar_informante.php',id);
+    });
+
+    $(document).on('click', '#editar_adelanto', function(){
+        var id = $(this).parent().data('id');
+        imprimir_vista('#form_adelanto_content','editar_adelanto.php',id);
     });
     
     $(document).on('click', '#ver_reporte', function(){
@@ -714,6 +723,33 @@ $(document).ready(function() {
              }
          });
     });
+    $(document).on('click', '#editar_adelanto_form', function(){
+        var id = $(this).data('id');
+         // get all inputs of the form
+         var inputs = $('.form-horizontal:not(.ignore)').find(':input');
+         // add in form data
+         var form_data = new FormData();
+         for(var i=0; i<inputs.length; i++){
+             form_data.append(inputs[i].id, inputs[i].value);
+         }
+         form_data.append('id', id);
+         $.ajax({
+             url: '../php/c/0/editar_adelanto.php',
+             type: 'POST',
+             processData: false,
+             contentType: false,
+             data: form_data,
+             success: function(data){
+                 data = JSON.parse(data);
+                 if(data.status == 'success'){
+                    imprimir_vista('#form_adelanto_content','form_adelantos.php',0);
+                    imprimir_vista('#tabla_consulta','tabla_adelantos.php',0);
+                     alertify.set('notifier','position', 'top-right');
+                     alertify.success('Registro modificado');
+                 }
+             }
+         });
+    });
     $(document).on('click', '#agregar_reporte', function(){
         insertar_datos('#form_reporte');
     });
@@ -729,6 +765,18 @@ $(document).ready(function() {
             $("#if_referenciado").slideUp(500);
         }
         $('.dis_'+id_cliente).prop('disabled', 'disabled');
+    });
+    $(document).on('change', '#folio_adelanto', function (){
+        var id_reporte = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "../php/c/0/total_adelantado.php",
+            data: "id_reporte=" + id_reporte,
+            success: function(data){
+                data = JSON.parse(data);
+                $("#total_adelantado").html('Total adelantado: '+data.total);
+            }
+        });
     });
     function insertar_datos(contenedor){
         var inputs = $(contenedor).find(':input:not(:disabled):not(:submit):not(:reset):not(:button):not(hidden)');

@@ -30,6 +30,9 @@ switch ($_SESSION['hash']) {
     case 'informantes':
         $tabla = 'informante';
     break;
+    case 'adelantos':
+        $tabla = 'adelanto';
+    break;
 }
 $resultado = $sql->obtenerResultadoSimple("CALL sp_delete_".$tabla."('".$_POST['id_cliente']."')");
 if($resultado){
