@@ -87,7 +87,7 @@ $tipos_medicos = $sql->obtenerResultado("CALL sp_select_tipos_medicos()");
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
-                <input type="password" class="form-control" id="pass" placeholder="Contraseña">
+                <input type="password" class="form-control" id="usuario_pswd" placeholder="Contraseña">
             </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
                 <div>

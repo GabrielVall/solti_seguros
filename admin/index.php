@@ -142,6 +142,6 @@ if(!isset($_SESSION['id_usuario'])){
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js" integrity="sha512-K/oyQtMXpxI4+K0W7H25UopjM8pzq0yrVdFdG21Fh5dBe91I40pDd9A4lzNlHPHBIP2cwZuoxaUSX0GJSObvGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<!-- Switcher js -->
 		<!-- <script src="nowa/nowa_demo/assets/switcher/js/switcher.js"></script> -->
-		<script src="js/main.js?0.1"></script>
+		<script src="js/main.js?0.2"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.6.0-beta.1/lightgallery.umd.min.js" integrity="sha512-mTkrmSjDbnQupfqRqR37iXQBo1/ibXR2dHvKQ5e72HENLkjOkrJXapSsctcSCSQ7ufPgdWZmQ+mBf9KnFjbaSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>

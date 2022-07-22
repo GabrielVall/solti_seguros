@@ -78,7 +78,7 @@ else if($_SESSION['hash'] == 'asistentes' ){
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
-                <input type="password" class="form-control" id="pass" placeholder="Contraseña">
+                <input type="password" class="form-control" id="usuario_pswd" placeholder="Contraseña">
             </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
                 <div>

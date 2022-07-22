@@ -74,7 +74,7 @@ $cliente = $sql->obtenerResultado("CALL sp_select_medico('".$_POST['id']."')");
                 <input type="text" class="form-control" id="usuario" placeholder="Usuario" value="<?php echo $cliente[0]['usuario']; ?>">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="pass" placeholder="Contraseña" >
+                <input type="password" class="form-control" id="usuario_pswd" placeholder="Contraseña" >
             </div>
             <div class="form-group mb-0 mt-3 justify-content-end d-flex">
                 <div>

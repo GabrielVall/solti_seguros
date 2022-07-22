@@ -5,9 +5,10 @@ $reporte = $sql->obtenerResultado('CALL sp_select_reporte("'.$_POST['id'].'")');
 $clientes_adicionales = $sql->obtenerResultado('CALL sp_select_clientes_adicionales("'.$_POST['id'].'")');
 $total_clientes_adicionales = COUNT($clientes_adicionales);
 // force num to 8 zeros
-$año = explode("-",$reporte[0]['fecha_accidente']);
+$id_folder = $_POST['id'];
+$year = explode("-",$reporte[0]['fecha_accidente']);
 $_POST['id'] = sprintf("%03d", $_POST['id']);
-$folio_reporte = $_POST['id'].'-'.$año[0];
+$folio_reporte = $_POST['id'].'-'.$year[0];
 $total_reporte = count($reporte);
 $cliente = $sql->obtenerResultado('CALL sp_select_cliente("'.$reporte[0]['id_cliente'].'")');
 $ciudades = file_get_contents('../../../admin/js/estados-municipios.json');
@@ -29,7 +30,7 @@ function estado_name($id){
     }
 }
 $nombre_c = $cliente[0]['nombre'];
-$id_c = $folio;
+$id_c = $_POST['id'];
 $mensaje = "
 ¡Hola {$nombre_c}!, el reporte fue aceptado y esta siendo procesado ahora mismo, si tienes alguna duda puedes contactarnos desde http://lawfirmgloria.com/ y te atenderemos rápidamente.
 Seras informado por este medio cada que tengamos más información sobre tu reporte.
@@ -136,7 +137,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                     </tbody>
                 </table>
             </div>
-            <div class="col-xxl-4 col-xl-12 col-lg-12 col-md-12">
+            <div class="col-lg-12 col-md-12">
                             <div class="card custom-card">
                                 <div class="card-body">
                                     <div class="row row-sm file-detailimg">
@@ -144,14 +145,14 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
                                         <ul id="lightgallery" class="list-unstyled row mb-0 px-2">
 
                                         <?php
-                                            $files = scandir('../../../images/reportes/'.$_POST['id']);
+                                            $files = scandir('../../../images/reportes/'.$id_folder);
                                             foreach($files as $file){
                                                 if($file != '.' && $file != '..'){
-                                                    $archivo = '../images/reportes/'.$_POST['id'].'/'.$file;
+                                                    $archivo = '../images/reportes/'.$id_folder.'/'.$file;
                                                     ?>
-                                                    <li class="col-sm-4 col-md-4 col-xl-3" data-responsive="<?php echo $archivo ?>" data-src="<?php echo $archivo ?>">
+                                                    <li class="col-sm-4 col-md-4 col-xl-4" data-responsive="<?php echo $archivo ?>" data-src="<?php echo $archivo ?>">
                                                         <a href="" class="wd-100p">
-                                                            <img class="img-responsive br-5" src="<?php echo $archivo ?>" alt="Thumb-1">
+                                                            <img class="img-responsive br-5" src="<?php echo $archivo ?>" alt="<?php echo $file; ?>">
                                                         </a>
                                                     </li>
                                                     <?php

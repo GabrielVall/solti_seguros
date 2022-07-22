@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Laredo eagle pas",
+    "name": "Laredo",
     "state": "Texas"
   },
   {
@@ -13,5 +13,20 @@
     "id": 3,
     "name": "Del Río",
     "state": "Texas"
+  },
+  {
+    "id": 4,
+    "name": "Eagle Pass",
+    "state": "Texas"
+  },
+  {
+    "id": 5,
+    "name": "Piedras Negras",
+    "state": "Coahuila"
+  },
+  {
+    "id": 6,
+    "name": "Nuevo Laredo",
+    "state": "Tamaulipas"
   }
 ]
