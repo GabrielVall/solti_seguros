@@ -1,10 +1,10 @@
 <?php 
 session_start();
-if(!isset($_SESSION['id_usuario'])){
-	include '../php/v/0/login.php';
-	exit;
-}
-
+// if(!isset($_SESSION['id_usuario'])){
+// 	include '../php/v/0/login.php';
+// 	exit;
+// }
+header('Location: ../error.html');
 ?>
 <!doctype html>
 <html lang="en" dir="ltr">
