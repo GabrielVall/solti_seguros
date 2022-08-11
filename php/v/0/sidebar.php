@@ -2,8 +2,8 @@
     <aside class="app-sidebar">
         <div class="main-sidebar-header active">
             <a class="header-logo active" href="index.html">
-                <img src="nowa/nowa_demo/assets/img/brand/logo2.webp" class="main-logo  desktop-logo" alt="logo">
-                <img src="logo2_white.png" class="main-logo  desktop-dark" alt="logo">
+                <!-- <img src="nowa/nowa_demo/assets/img/brand/logo2.webp" class="main-logo  desktop-logo" alt="logo">
+                <img src="logo2_white.png" class="main-logo  desktop-dark" alt="logo"> -->
                 <img src="nowa/nowa_demo/assets/img/brand/favicon.png" class="main-logo  mobile-logo" alt="logo">
                 <img src="nowa/nowa_demo/assets/img/brand/favicon-white.png" class="main-logo  mobile-dark" alt="logo">
             </a>

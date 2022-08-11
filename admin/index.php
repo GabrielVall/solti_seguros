@@ -144,4 +144,13 @@ if(!isset($_SESSION['id_usuario'])){
 		<!-- <script src="nowa/nowa_demo/assets/switcher/js/switcher.js"></script> -->
 		<script src="js/main.js?0.2"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.6.0-beta.1/lightgallery.umd.min.js" integrity="sha512-mTkrmSjDbnQupfqRqR37iXQBo1/ibXR2dHvKQ5e72HENLkjOkrJXapSsctcSCSQ7ufPgdWZmQ+mBf9KnFjbaSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<!-- <script src="nowa/nowa_demo/assets/plugins/datepicker/amazeui.datetimepicker.min.js"></script>
+		<script src="nowa/nowa_demo/assets/plugins/datepicker/spectrum.js"></script>
+		<script src="nowa/nowa_demo/assets/plugins/datepicker/jquery.simple-dtpicker.js"></script>
+		<script src="nowa/nowa_demo/assets/plugins/jquery.maskedinput/jquery.maskedinput.js"></script>
+		<script src="nowa/nowa_demo/assets/js/form-elements.js"></script>
+		<script src="nowa/nowa_demo/assets/plugins/datepicker/datepicker.js"></script>
+		<script src="nowa/nowa_demo/assets/plugins/datepicker/bootstrap-datepicker.js"></script> -->
+		<script src="nowa/nowa_demo/assets/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+		<script src="nowa/nowa_demo/assets/js/form-mask.init.js"></script>
 </html>

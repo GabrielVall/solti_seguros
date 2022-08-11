@@ -55,9 +55,21 @@ else if($_SESSION['hash'] == 'asistentes' ){
                 <input type="text" class="form-control" id="telefono" placeholder="Telefono">
             </div>
             <div class="form-group">
+                <label for="input-date1">Fecha de nacimiento</label>
+                <!-- <input type="date" class="form-control fc-datepicker" id="fecha_nacimiento" placeholder="Fecha de nacimiento"> -->
+                <!-- <input class="form-control" id="dateMask" placeholder="MM/DD/YYYY" type="text"> -->
+                <input id="input-date1" class="form-control input-mask" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy">
+            </div>
+            <div class="form-group">
                 <label for="correo">Correo electronico</label>
                 <input type="email" class="form-control" id="correo" placeholder="correo">
-            </div>
+            </div>            
+            <!-- <div class="input-group">
+                <div class="input-group-text">
+                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                </div>
+                <input type="text" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+            </div> -->
             <div class="form-group" style="<?php if(isset($hidden['direccion'])){echo "display:none;";} ?>">
                 <label for="direccion">Dirección</label>
                 <input type="text" class="form-control" <?php if(isset($hidden['direccion'])){echo 'value="Sin Valor"';} ?> id="direccion" placeholder="Dirección">

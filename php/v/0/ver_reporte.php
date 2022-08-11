@@ -48,7 +48,7 @@ $ref = "https://api.whatsapp.com/send?phone={$tel_cliente}&text={$mensaje}";
     <div class="card custom-card" style="margin-bottom:0px;">
         <div class="card-body" id="contenedor_reporte">
             <div class="d-lg-flex">
-                <h6 class="main-content-label mb-1"><span class="d-flex mb-4"><a href="#"><img src="logo2_white.png" class="sign-favicon ht-40" alt="logo"></a></span></h6>
+                <!-- <h6 class="main-content-label mb-1"><span class="d-flex mb-4"><a href="#"><img src="logo2_white.png" class="sign-favicon ht-40" alt="logo"></a></span></h6> -->
                 <div class="ms-auto">
                     <p class="mb-1"><span class="font-weight-bold">Folio: <?php echo $folio_reporte; ?></span></p>
                 </div>
